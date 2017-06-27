@@ -1,66 +1,42 @@
 	
-	var PROJECT 			= 'map' ; 
-
-    var host_api = "http://gicrdev.iarc.lan/cms/wp-json/wp/v2/" ; 
-
-    /*var hubs = [
-        { 'id' : 1 , 'code' : 'AFCRN' , 'name' : 'SS-Africa' , 'label' : 'Sub-Saharian Africa', 'color' : '#71C8E3' , 'plot_name' : 'ZAF' , 'plot_translate' : { 'x' : 150 , 'y' : -250 } } , 
-        { 'id' : 2 , 'code' : 'IZMIR' , 'name' : 'NA,C-Africa, W.Asia' , 'label' : 'Northern Africa, Central and Western Asian', 'color' : '#724A98' , 'plot_name' : 'MAR' , 'plot_translate' : { 'x' : 250 , 'y' : -180 } } , 
-        { 'id' : 3 , 'code' : 'MUMB' , 'name' : 'S,E,SE Asia' , 'label' : 'South, Eastern and South-Eastern Asia',  'color' : '#2EAF81' , 'plot_name' : 'CHN' , 'plot_translate' : { 'x' :  250 , 'y' : -350 }} , 
-        { 'id' : 4 , 'code' : 'PI' , 'name' : 'Pacific' , 'label' : 'Pacific Islands',  'color' : '#ff6600' , 'plot_name' : 'FJI' , 'plot_translate' : { 'x' : 90 , 'y' : -160 } } , 
-        { 'id' : 5 , 'code' : 'CARIB' , 'name' : 'Carribean' , 'label' : 'Carribean',  'color' : '#b21c01' , 'plot_name' : 'SUR' , 'plot_translate' : { 'x' : 100 , 'y' : -150 } } ,
-        { 'id' : 6 , 'code' : 'LA' , 'name' : 'LatAm' , 'label' : 'Latin America',  'color' : '#cca300', 'plot_name' : 'PER' , 'plot_translate' : { 'x' : 100 , 'y' : -280 }}
-    ] ; 
-
-    hubs.sort( function(a, b){ return a.key > b.key; } );*/
-
-    var hubs = [] ; 
-
-    var hubs_per_name = [] ;
-    var hubs_per_code = [] ;  
-    /*for ( var h in hubs ) 
-    {
-        hubs_per_name[ hubs[h].name ] = hubs[h] ; 
-        hubs_per_code[ hubs[h].code ] = hubs[h] ; 
-        $('.line').append('<div class="line-hub" style="background-color:'+hubs[h].color+';"></div>')
-    }*/
-
-    var GICR = {
+    // Constants
+	const PROJECT 			= 'map' ; 
+    const host_api = "http://gicrdev.iarc.lan/cms/wp-json/wp/v2/" ; 
+    const hubs = [] ; 
+    const hubs_per_name = [] ;
+    const hubs_per_code = [] ;  
+    const GICR = {
         'default_color'     : '#e3e3e3' , 
         'visits_color'      : '#000066' , 
         'trainings_color'   : '#006837 '
     }
+    const brewer_color = 'RdPu'; 
+    const brewer_nb    = 4 ; 
+    const map_width   = $(window).width(); 
+    const map_height  = $(window).height() - 120 ;
 
-    var brewer_color = 'RdPu'; 
-    var brewer_nb    = 4 ; 
-
-    var map_width   = $(window).width(); 
-    var map_height  = $(window).height() - 120 ;
-    var zoomed      = false ; 
-    var current_hub = undefined ; 
-    var current_country = undefined ; 
-    var view        = 1 ; 
-    var event       = 1 ; 
-    var level       = 0 ; 
-    var countries   = [] ;
-    var metric      = 'visit' ; 
-    var site_visits = [] ; 
-    var trainings   = [] ; 
-
-    var site_visits_per_country = [] ; 
-    var trainings_per_country = [] ; 
-    var trainings_per_place ; 
-    var agreements ; 
-    var hubs_totals_training = [] ; 
-    var hubs_totals_values = [] ; 
-
-    var rectangle_area ; 
-    var rectangles_activities ; 
-
-    var color_training ; 
-
-    var scale = 0 ; 
-    var translate = {} ; 
+    // Reasignable variables 
+    let zoomed      = false ; 
+    let current_hub = undefined ; 
+    let current_country = undefined ; 
+    let view        = 1 ; 
+    let event       = 1 ; 
+    let level       = 0 ; 
+    let countries   = [] ;
+    let metric      = 'visit' ; 
+    let site_visits = [] ; 
+    let trainings   = [] ; 
+    let site_visits_per_country = [] ; 
+    let trainings_per_country = [] ; 
+    let trainings_per_place ; 
+    let agreements ; 
+    let hubs_totals_training = [] ; 
+    let hubs_totals_values = [] ; 
+    let rectangle_area ; 
+    let rectangles_activities ; 
+    let color_training ; 
+    let scale = 0 ; 
+    let translate = {} ; 
 
     if ( $(window).width() > 1480 )
     {
@@ -78,7 +54,8 @@
         translate = { 'x' : 0 , 'y' : 150 } ; 
     }
 
-	var dataviz_conf = {
+    // configuration as constant
+	const dataviz_conf = {
         'type'      : 'map' , 
         'title'     : false , 
         'width'     : $(window).width()  , 
@@ -113,7 +90,7 @@
 
         loadGircData();
 
-        var oMap = new CanChart( dataviz_conf ).render() ;
+        const oMap = new CanChart( dataviz_conf ).render() ;
 
         $(".tabs-menu a").click(function(event) {
             event.preventDefault();
