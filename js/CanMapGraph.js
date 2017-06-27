@@ -150,10 +150,10 @@ CanMapGraph.prototype = {
             CanMapHeight = ( CanMapConf.height != undefined ) ? CanMapConf.height : 700 ;
 
         CanGraphMapProjections = [
-          { name: "Aitoff", projection: d3.geo.aitoff()},
-          { name: "Globe", projection : d3.geo.orthographic().scale(CanMapConf.chart.globe_scale).translate([CanMapWidth/2,CanMapConf.chart.globe_translate.y]).rotate([0,0]).clipAngle(90 + 1e-6).precision(.3)  }, //.origin([-71.03,42.37])},
-          { name: "Mercator", projection: d3.geo.mercator()},
-          { name: "Natural Earth", projection: d3.geo.naturalEarth().scale(CanMapConf.chart.scale).translate( (CanMapConf.chart.translate == null) ? [CanMapWidth/2,320] : CanMapConf.chart.translate )}
+          { name: "Aitoff", projection:  d3.geoAitoff() },
+          { name: "Globe", projection : d3.geoOrthographic().scale(CanMapConf.chart.globe_scale).translate([CanMapWidth/2,CanMapConf.chart.globe_translate.y]).rotate([0,0]).clipAngle(90 + 1e-6).precision(.3)  }, //.origin([-71.03,42.37])},
+          { name: "Mercator", projection: d3.geoMercator()},
+          { name: "Natural Earth", projection: d3.geoNaturalEarth().scale(CanMapConf.chart.scale).translate( (CanMapConf.chart.translate == null) ? [CanMapWidth/2,320] : CanMapConf.chart.translate )}
         ];
 
         /*options.forEach(function(o) {
@@ -163,9 +163,9 @@ CanMapGraph.prototype = {
         var i = 0 ,
             n = CanGraphMapProjections.length - 1 ;
 
-        CanMapGraphProjection = CanGraphMapProjections[ CanGraphMapProjectionsI[ CanMapConf.chart.projection ] ].projection;
+        CanMapGraphProjection = CanGraphMapProjections[ CanGraphMapProjectionsI[ CanMapConf.chart.projection ] ].projection ;
 
-        CanGraphMapPath = d3.geo.path()
+        CanGraphMapPath = d3.geoPath()
             .projection( CanMapGraphProjection );
 
         if ( CanMapConf.chart.graticule ) var graticule = d3.geo.graticule();
@@ -188,12 +188,12 @@ CanMapGraph.prototype = {
             .attr("transform", "translate("+CanMapConf.chart.globe_translate.x+","+CanMapConf.chart.globe_translate.y+")")
             .call(
 
-                d3.behavior.drag()
-                    .origin(function() { 
+                d3.drag()
+                    /*.origin( function() { 
                         var r = CanMapGraphProjection.rotate(); 
                         CanMapTooltip.style('display','none');
                         return {x: r[0] / CanMapSens, y: -r[1] / CanMapSens}; 
-                    })
+                    })*/
                     .on("drag", function() {
 
                         if ( CanMapConf.chart.projection != 'globe' ) return ; 
@@ -591,14 +591,14 @@ function setMapColor( key_color )
     switch( CanMapConf.chart.color_scale )
     {
         case 'quantize' : 
-            CanGraphMapColor        = d3.scale.quantize().domain( domain_ranges ).range( range_colors );
-            CanGraphRadiusBubble    = d3.scale.sqrt().domain( domain_ranges ).range( range_radius );
+            CanGraphMapColor        = d3.scaleQuantize().domain( domain_ranges ).range( range_colors );
+            CanGraphRadiusBubble    = d3.scaleSqrt().domain( domain_ranges ).range( range_radius );
             break ; 
 
         case 'quantile' : 
             // console.info( d3.min( domain_values) , d3.max( domain_values) ) ;
-            CanGraphMapColor        = d3.scale.quantile().domain( domain_values ).range( range_colors );
-            CanGraphRadiusBubble    = d3.scale.sqrt().domain( domain_values ).range( range_radius );
+            CanGraphMapColor        = d3.scaleQuantile().domain( domain_values ).range( range_colors );
+            CanGraphRadiusBubble    = d3.scaleSqrt().domain( domain_values ).range( range_radius );
             break ; 
  
     }
@@ -998,12 +998,12 @@ function drawMap( world ) {
 
         .call(
 
-            d3.behavior.drag()
-                .origin(function() { 
+            d3.drag()
+                /*.origin(function() { 
                     var r = CanMapGraphProjection.rotate(); 
                     CanMapTooltip.style('display','none');
                     return {x: r[0] / CanMapSens, y: -r[1] / CanMapSens}; 
-                })
+                })*/
                 .on("drag", function() {
 
                     if ( CanMapConf.chart.projection != 'globe' ) return ; 

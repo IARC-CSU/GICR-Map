@@ -423,7 +423,7 @@
         // loading gicr map
         // d3.csv( "data/gicr.csv" , function( data ){
 
-        var per_page = '?per_page=100&post_status=any' ; 
+        var per_page = '?per_page=20&post_status=any' ; 
 
         var json = queue()
             .defer( d3.json  , host_api + "hubs" + per_page )
@@ -487,7 +487,7 @@
                     }
                 }
 
-                buildGlobalIndicators({ 'site_visits' : site_visits , 'trainings' : trainings , 'agreements' : results[8] }) ; 
+                // buildGlobalIndicators({ 'site_visits' : site_visits , 'trainings' : trainings , 'agreements' : results[8] }) ; 
 
                 grabGicrValues(); 
             })
@@ -557,7 +557,6 @@
         var tot_trainings = 0 ; 
 
         // console.info( trainings_per_hubs , site_visits_per_hubs ) ; 
-
         for ( var h in site_visits_per_hubs )
         {
             var completed_visits = 0 ; 
@@ -802,7 +801,7 @@
     var updateGeographyFilling = function(){
 
         // 
-        color_training = d3.scale.quantile().domain( [ d3.min( hubs_totals_values ) , d3.max(  hubs_totals_values ) ] ).range( colorbrewer[ brewer_color ][ brewer_nb ] ) ; 
+        color_training = d3.scaleQuantile().domain( [ d3.min( hubs_totals_values ) , d3.max(  hubs_totals_values ) ] ).range( colorbrewer[ brewer_color ][ brewer_nb ] ) ; 
 
         d3.selectAll(".country")
             .data( CanGraphGeometries.features ) 
