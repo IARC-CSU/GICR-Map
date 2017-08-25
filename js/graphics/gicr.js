@@ -400,7 +400,7 @@
         // loading gicr map
         // d3.csv( "data/gicr.csv" , function( data ){
 
-        var per_page = '?per_page=20&post_status=any' ; 
+        var per_page = '?per_page=50&post_status=any' ; 
 
         var json = queue()
             .defer( d3.json  , host_api + "hubs" + per_page )
@@ -418,6 +418,7 @@
             .defer( d3.json  , host_api + "countries" + per_page + "&page=1" )
             .defer( d3.json  , host_api + "countries" + per_page + "&page=2" )
             .defer( d3.json  , host_api + "countries" + per_page + "&page=3" )
+            .defer( d3.json  , host_api + "countries" + per_page + "&page=4" )
 
             .defer( d3.csv , "data/agreements.csv" )
             
@@ -442,9 +443,8 @@
 
 
                 // merge countries 
-                var countries_tmp = results[5].concat( results[6] , results[7] ) ; 
-                // console.info( countries_tmp ) ; 
-
+                var countries_tmp = results[5].concat( results[6] , results[7] , results[8] ) ; 
+                
                 for ( var c in countries_tmp )
                 {
                     if ( countries_tmp[c].hub != false && countries_tmp[c].iso != "" )
@@ -467,6 +467,8 @@
                 // buildGlobalIndicators({ 'site_visits' : site_visits , 'trainings' : trainings , 'agreements' : results[8] }) ; 
 
                 grabGicrValues(); 
+
+                buildAnnotations() ; 
             })
         ;
 
@@ -615,6 +617,73 @@
 
     }
 
+    var buildAnnotations = function(){
+
+        // create a container for tooltips
+
+        const type = d3.annotationLabel 
+
+        const annotationGroup = CanMapSvg
+          .append("g")
+          .attr("class", "annotation-group") ; 
+
+        let annotations = [] ; 
+
+        const hubs_annotations = {
+            2 : {} , 
+            3 : {} , 
+            4 : {} , 
+            5 : {
+                radius : 15
+            } , 
+            6 : {
+                radius : 25 ,
+                dy : -150 , 
+                dx : -250
+            } , 
+            7 : {
+                radius : 2 ,
+                dy : 80 , 
+                dx : -100
+            }
+
+        } ; 
+
+        hubs.forEach(function(d){
+
+            var hub_settings = hubCentroidPerId( d.id ) ; 
+
+            // get country item per hub
+            var item = checkCountry( CanGraphGeometries.features , hub_settings.codeCountry ) ; 
+
+            // get centroid of item
+            var centroid = CanGraphMapPath.centroid( item ) ; 
+
+            let h = hubs_annotations[d.id] ;
+
+            annotations.push({
+              note      : { label : d.regional_hub_center , title:  d.code } ,
+              subject   : { radius : ( h.radius == undefined ) ? 2 : h.radius } ,
+              connector : { end: "arrow" } ,
+              x         : centroid[0] , 
+              y         : centroid[1] + 150 ,
+              color     : '#ff8684',
+              stroke    : 'black',
+              className : 'annotation_' + d.code , 
+              dy        : ( h.dy == undefined ) ? 100 : h.dy , 
+              dx        : ( h.dx == undefined ) ? -150 : h.dx
+            }); 
+
+        });
+
+        let makeAnnotations = d3.annotation()
+            .editMode(true)
+            .type( d3.annotationCalloutCircle )
+            .annotations( annotations )
+
+        annotationGroup.call( makeAnnotations ) ; 
+    }
+
     /**
     *
     */
@@ -624,16 +693,18 @@
 
         for( var f in CanGraphGeometries.features ) 
         {
+            // for all countries, if iso is defined in DB + iso 3 code
             var c = CanGraphGeometries.features[f].properties  ;
 
             for ( var g in countries )
             {
-                // console.info( c.ISO_3_CODE , countries[g].iso  ) ; 
-
+                // fin color of country (via hub)
                 if ( c.ISO_3_CODE == countries[g].iso )
                 {
                     c.values        = countries[g] ; 
-                    c.values.color  = countries[g].hub[0].color ;
+                    var hub_l       = getHubById( countries[g].hub ) ; 
+                    c.values.color  = hub_l.color ;
+                    // console.info( c.SOVEREIGN , hub_l.color ) ; 
                     break ; 
                 }
             }
@@ -953,10 +1024,9 @@
     **/
     var zoomView = function( item , type )
     {
-        var scale = 2 ;
-
-        var option = type ; 
-        var hub_id = Math.abs( item ) ; 
+        var scale   = 2 ;
+        var option  = type ; 
+        var hub_id  = Math.abs( item ) ; 
 
 
         $('#list-hubs a').removeClass('active') ; 
@@ -1066,50 +1136,11 @@
                 }
 
 
-                switch( hub_id )
-                {
+                var hub_settings = hubCentroidPerId( hub_id ) ; 
                 
-                    case 2 : // sub saharian africa
-                        var codeCountry = "CMR" ; 
-                        var translateX = map_width / 4 ; 
-                        var translateY = map_height / 2.5 ; 
-                        break ; 
-
-                    case 3 : // northern africa + south east asia
-                        var codeCountry = "MAR" ; 
-                        scale = 1.5 ; 
-                        var translateX = map_width / 12 ; 
-                        break ; 
-
-                    case 7 : // latin america
-                        var codeCountry = "PER" ; 
-                        scale = 1.5 ; 
-                        var translateX = map_width / 4 ; 
-                        var translateY = map_height / 2.7 ; 
-                        break ; 
-
-                    case 4 : // south east southern asia
-                        var codeCountry = "VNM" ; 
-                        var translateX = map_width / 3.2 ;
-                        scale = 1.3 ;  
-                        break ; 
-
-                    case 6 : // carribean
-                        var codeCountry = "LCA" ; 
-                        scale = 3.5 ;
-                        var translateX = map_width / 3.5 ; 
-                        var translateY = map_height / 3 ; 
-             
-                        break ; 
-                    case 5 : // pacific island
-                        var codeCountry = "FJI" ; 
-                        scale = 3.5 ; 
-                        var translateX = map_width / 10 ; 
-                        break ; 
-                }
 
                 // zoom on region 
-                zoomRegion( codeCountry , scale , translateX , translateY , hub_id ) ; 
+                zoomRegion( hub_settings.codeCountry , hub_settings.scale , hub_settings.translateX , hub_settings.translateY , hub_id ) ; 
                 $('text.subunit-label').removeClass('zoomed selected');
 
                 if ( view == 2 ) return ; 
@@ -1152,6 +1183,58 @@
         } // end switch
 
         updateGeographyFilling(); 
+    }
+
+    var hubCentroidPerId = function( hub_id )
+    {
+        switch( hub_id )
+        {
+        
+            case 2 : // sub saharian africa
+                var codeCountry = "CMR" ; 
+                var translateX = map_width / 4 ; 
+                var translateY = map_height / 2.5 ; 
+                break ; 
+
+            case 3 : // northern africa + south east asia
+                var codeCountry = "MAR" ; 
+                var scale = 1.5 ; 
+                var translateX = map_width / 12 ; 
+                break ; 
+
+            case 7 : // latin america
+                var codeCountry = "PER" ; 
+                var scale = 1.5 ; 
+                var translateX = map_width / 4 ; 
+                var translateY = map_height / 2.7 ; 
+                break ; 
+
+            case 4 : // south east southern asia
+                var codeCountry = "VNM" ; 
+                var translateX = map_width / 3.2 ;
+                var scale = 1.3 ;  
+                break ; 
+
+            case 6 : // carribean
+                var codeCountry = "LCA" ; 
+                var scale = 3.5 ;
+                var translateX = map_width / 3.5 ; 
+                var translateY = map_height / 3 ; 
+     
+                break ; 
+            case 5 : // pacific island
+                var codeCountry = "FJI" ; 
+                var scale = 3.5 ; 
+                var translateX = map_width / 10 ; 
+                break ; 
+        }
+
+        return {
+            'codeCountry' : codeCountry , 
+            'scale' : scale ,
+            'translateX' : translateX ,
+            'translateY' : translateY
+        }
     }
 
     var zoomCountry = function( codeCountry , p_level )

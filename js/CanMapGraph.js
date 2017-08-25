@@ -1613,12 +1613,16 @@ function projectionTween(projection0, projection1, option) {
 * @param (array) list of geometries countries
 * @param (string) iso code 
 */
-function checkCountry(cnt, value) { 
+function checkCountry( nodes , value) { 
+    
     var found ; 
-    cnt.filter(function(d){
+
+    nodes.map( function(d ){
 
         if( d.properties.ISO_3_CODE == value ) { found = d ; return ; }
-    });
+
+    }) ;
+
     return found ; 
 };
 
