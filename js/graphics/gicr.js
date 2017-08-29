@@ -1,7 +1,8 @@
 	
     // Constants
 	const PROJECT 			= 'map' ; 
-    const host_api = "http://gicrdev.iarc.lan/cms/wp-json/wp/v2/" ; 
+    const host     = "http://gicrdev.iarc.lan/cms/" ; 
+    const host_api = host +"wp-json/wp/v2/" ; 
     const hubs = [] ; 
     const hubs_per_name = [] ;
     const hubs_per_code = [] ;  
@@ -444,7 +445,7 @@
 
                 // merge countries 
                 var countries_tmp = results[5].concat( results[6] , results[7] , results[8] ) ; 
-                
+
                 for ( var c in countries_tmp )
                 {
                     if ( countries_tmp[c].hub != false && countries_tmp[c].iso != "" )
@@ -987,14 +988,20 @@
 
             zoomed = true ;    
             
+            $('.annotation-group').hide(); 
         }
 
         d3.selectAll("g#mapGroup")
             .transition()
             .duration( 1500 )
             .attr("transform", translate + "scale(" + scale + ")translate(" + -x + "," + -y + ")")
+            .on("end",function(){
+                if ( level == 0 )
+                    $('.annotation-group').show();
+            })
         ;
 
+        // 
         if ( view == 2 && level == 1 )
         {
             d3.selectAll("g.activities")
@@ -1002,6 +1009,7 @@
                 .duration( 1500 )
                 .attr("transform", translate + "scale(" + scale + ")translate(" + -x + "," + -y + ")") ; 
         }
+        // zoom leve into a country
         else if ( view == 1 && level == 2 ) // Geography view & 
         {
             $('.place-circles-group').show() ;
@@ -1010,11 +1018,13 @@
                 .duration( 1500 )
                 .attr("transform", translate + "scale(" + scale + ")translate(" + -x + "," + -y + ")"); 
 
+           
         }
         else
         {
-            // always hide
+            // always hide small places
             $('.place-circles-group').hide();
+
         }
     }
 
@@ -1040,6 +1050,7 @@
         {
             case "global" :
 
+                level = 0 ; 
                 $('#hubPanel').removeClass('show') ;
                 $('#countryPanel').removeClass('show') ;
                 $('#hubActvities').removeClass('show') ;
@@ -1048,7 +1059,7 @@
                 setTimeout(function(){
                     $(".unit-label").fadeIn(); 
                 },1500);
-                level = 0 ; 
+                
                 $('text.subunit-label').removeClass('zoomed selected');
                 $('text.place-label').removeClass('show');
                 $('.hubs-list').removeClass('hidden');
@@ -1277,19 +1288,25 @@
     {
         var country = getCountryByIso( codeCountry ) ; 
 
-        $('#countryPanel').removeClass('show') ;
-        $('#countryPanel').addClass('show') ;
+        // load country profile
+        var json = d3.json( host + "/wp-content/themes/twentysixteen/get_country.php?id="+ country.id , function( country ){
 
-        $('#country-name').css('color' , country.color ).text( country.name );
-        $('#countryPanel a.close').css('background-color', country.color);
-        $('.hub-line').css('background-color' , country.color ) ; 
+            $('#countryPanel').removeClass('show') ;
+            $('#countryPanel').addClass('show') ;
 
-        $('#tab-2').html( nl2br( country.the_need )); 
-        $('#tab-3').html( nl2br( country.solution )); 
-        $('#tab-4').html( nl2br( country.impact )); 
-        $('#tab-5').html( nl2br( country.the_plan_of_action )); 
-        $('#tab-6').html( nl2br( country.collaborators )); 
+            $('#country-name').css('color' , country.color ).text( country.name );
+            $('#countryPanel a.close').css('background-color', country.color);
+            $('.hub-line').css('background-color' , country.color ) ; 
+
+            $('#tab-2').html( ( country.the_need )); 
+            $('#tab-3').html( ( country.solution )); 
+            $('#tab-4').html( ( country.impact )); 
+            $('#tab-5').html( ( country.the_plan_of_action )); 
+            $('#tab-6').html( ( country.collaborators )); 
+
+        }) ; 
     }
+        
 
     var buildLegend = function(){
 

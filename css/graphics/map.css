@@ -251,7 +251,7 @@
 
 	div#countryPanel p{
 		padding-left: 5px ;
-		font-size: 0.8em;
+		font-size: 0.9em;
 	    line-height: 14px;
 	    text-align: justify; 
 	}
@@ -260,6 +260,7 @@
 		width: 100% ; 
 		line-height: 16px;
    		margin-top: 0px;
+   	    font-size: 0.9em;
 	}
 
 	div#countryPanel ul li{

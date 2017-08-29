@@ -1245,7 +1245,7 @@ function jumpToCountryGlobe( value ) {
     {
 
         var rotate = CanMapGraphProjection.rotate(),
-        focusedCountry = checkCountry( CanGraphMapFeatures , value );
+        focusedCountry = checkCountry( CanGraphGeometries.features , value );
         p = d3.geo.centroid( focusedCountry );
 
         currentGlobeCountryCode = value ; 
@@ -1616,11 +1616,8 @@ function projectionTween(projection0, projection1, option) {
 function checkCountry( nodes , value) { 
     
     var found ; 
-
-    nodes.map( function(d ){
-
+    CanGraphGeometries.features.map( function(d ){
         if( d.properties.ISO_3_CODE == value ) { found = d ; return ; }
-
     }) ;
 
     return found ; 
