@@ -1,0 +1,371 @@
+/** layout */
+html {
+    height: 100%;
+    overflow-x: visible;
+    overflow-y: scroll;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #444;
+    background-color: #fff;
+    min-width: 380px;
+}
+.page-row {
+    width: 100%;
+}
+.page-position {
+    max-width: 1124px;
+    margin: 0 auto;
+}
+.breathe-in {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+.breathe-out {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+/** header */
+#header {
+    height: 95px;
+}
+#logo-position {
+    float: left;
+    width: 35%;
+    max-width: 320px;
+    min-width: 240px;
+    margin-top: 11px;
+    max-height: 82px;
+}
+#logo-position a {
+    display: block;
+    height: auto;
+}
+#logo-position a img {
+    width: 100%;
+}
+#website-logo-position {
+    float: right;
+    margin: 5px 5px 0 0;
+}
+#links-position {
+    float: right;
+    min-width: 120px;
+    padding: 10px 0 0 10px;
+}
+#networks {
+    float: right;
+    margin-top: 4px;
+    margin-right: 5px;
+    padding: 0;
+    list-style-type: none;
+}
+#networks li {
+    height: 10px;
+    border-left: 1px solid #cfcfcf;
+    padding: 0 5px;
+    display: inline-block;
+}
+#networks li.firstli {
+    border-left: medium none;
+}
+#networks li.lastli {
+    padding-right: 0;
+}
+#networks li a {
+    margin-top: -4px;
+    display: block;
+}
+#language-position {
+    float: right;
+    clear: right;
+}
+#language-position select, div.selector.fixedWidth {
+    width: 90px;
+}
+div.selector.fixedWidth span {
+    width: 80px;
+}
+button.selectpicker  {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/** topmenu */
+#topmenu {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    position: relative;
+    z-index: 10;
+}
+#topmenu > li {
+    float: left;
+    height: 35px;
+    position: relative;
+}
+#topmenu > li > a {
+    font-family: "Gill Sans MT", Helvetica, Arial, sans-serif;
+    color: #FFF;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 35px;
+    height: 35px;
+    display: block;
+    text-align: center;
+    padding: 0;
+}
+#topmenu > li.selected > a, #topmenu > li.selected:hover > a {
+    background-color: #FFF !important;
+    color: #0c81b6 !important;
+    height: 38px;
+}
+#topmenu > li:hover > a {
+    background-color: #89b1c4;
+    color: white;
+    height: 38px;
+    text-decoration: none;
+}
+
+/** submenu */
+#topmenu .submenu {
+    display: none;
+    background-color: white;
+    position: absolute;
+    top: 38px;
+    padding: 0;
+    list-style-type: none;
+    width: 200px;
+    border: 1px solid #cbdfe8;
+    border-bottom: none;
+}
+#topmenu > li:hover > .submenu {
+    display: block;
+}
+#topmenu .submenu > li {
+    position: relative;
+    display: block;
+}
+#topmenu .submenu > li > a {
+    /*color: #4b4b4b;*/
+    color: #888;
+    
+    padding: 8px 15px;
+    /*border-bottom: 1px solid #eeeeee;*/
+    border-bottom: 1px solid #cbdfe8;
+    display: block;
+}
+#topmenu .submenu > li > a:hover {
+    /*
+    background-color: #eeeeee;
+    color: #666;
+    */
+    /*
+    background-color: #89b1c4;
+    color: white;
+    */
+    background-color: #white;
+    /*color: #0c81b6;*/
+    color: #0b80b7;
+    text-decoration: none;
+}
+
+/** topmenu small */
+#topmenu-small {
+    display: none;
+}
+#topmenu-small .bootstrap-select {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 1px;
+    height: auto;
+}
+#topmenu-small .bootstrap-select button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#topmenu-small .bootstrap-select.btn-group .dropdown-menu {
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+#topmenu-small .bootstrap-select.btn-group .dropdown-menu li {
+    border-bottom: 1px solid white;
+}
+#topmenu-small .bootstrap-select.btn-group .dropdown-menu li a {
+    background-color: #0b80b7;
+    color: white;
+}
+#topmenu-small .bootstrap-select.btn-group .dropdown-menu li a.child {
+    background-color: #eeeeee;
+    color: #0b80b7;
+}
+
+/** banner */
+.banner {
+    /* 920 / 222 */
+    /*height: 222px;*/
+    height: 0px;
+    padding-bottom: 24.13%;
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+}
+.banner .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    opacity: 0.6;
+    background-color: #58b2db;
+}
+.banner ul {
+    width: 100%;
+    z-index: 1;
+}
+.banner li, .banner img {
+    width: 100%;
+}
+.banner.nocontrol .flex-direction-nav {
+    display: none;
+}
+.banner .flex-direction-nav {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+.banner .flex-direction-nav a {
+    width: 48px;
+    height: 48px;
+    background: transparent url('../images/banner/left.png') no-repeat 0 0;
+    opacity: 1;
+    text-align: left;
+    text-indent: -2000px;
+    overflow: hidden;
+}
+.flex-direction-nav a:before, .flex-direction-nav a.flex-next:before {
+    content: "";
+}
+.banner .flex-direction-nav .flex-prev {
+    left: 10px;
+}
+.banner .flex-direction-nav .flex-next {
+    right: 10px;
+    background-image: url('../images/banner/right.png');
+}
+.banner .title-position {
+    display: table;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+.banner h1 {
+    width: 75%;
+    height: auto;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-size: 35px;
+    border: none;
+    margin: 0 auto;
+    display: table-cell;
+}
+.banner h1 span {
+    display: block;
+    line-height: 26px;
+    font-size: 20px;
+    font-weight: normal;
+}
+.banner .section-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 25%;
+    z-index: 2;
+    opacity: 0.8;
+    background-color: #0b80b7;
+}
+.banner .section-position {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 25%;
+    z-index: 3;
+}
+.banner .section {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    height: auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 18px 8px 0;
+    text-align: right;
+}
+.banner .section .title {
+    color: white;
+    font-size: 30px;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+}
+.safari .banner .title-position {
+    height: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+/*
+.banner .section li {
+    padding: 5px 5px 0 0;
+}
+.banner .section li a {
+    color: white;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'Open Sans', sans-serif;
+}
+.banner .section li a.selected {
+    text-decoration: underline;
+}
+*/
+
+/** footer */
+#footer {
+    height: auto;
+    background-color: #eeeeee;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+.footer2,.footer3{
+    margin-top: 0px !important; 
+}
+
+#footer address {
+    padding-bottom: 10px;
+    padding-top: 18px;
+    color: #000;
+    font-size: 10px;
+    font-weight: normal;
+    text-align: center;
+    font-style: normal;
+}
+#footer address a {
+    color: #000;
+}

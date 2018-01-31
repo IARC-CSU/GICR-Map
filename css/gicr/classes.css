@@ -1,0 +1,184 @@
+/** tags */
+p {
+    text-align: justify;
+}
+:visited {
+    text-decoration: none;
+    border: none;
+}
+a img {
+    border: none;
+}
+body a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+/** headers */
+h1 {
+    border-bottom: 1px dashed silver;
+    font-weight: normal;
+    color: #037AB3;
+    padding-bottom: 6px;
+    font-size: 30px;
+    position: relative;
+}
+h2 {
+    font-size: 26px;
+    color: #767474;
+    position: relative;
+}
+h3 {
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+}
+h4 {
+    font-size: 18px;
+    position: relative;
+}
+
+/** colors */
+.bg-blue {
+    background-color: #0b80b7 !important;
+}
+.text-blue {
+    color: #0b80b7 !important;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+.text-lightblue {
+    color: #00b0f0 !important;
+}
+.bg-grey {
+    background-color: #f5f6f8 !important;
+}
+.text-grey {
+    color: #888 !important;
+}
+
+.text-lightgrey {
+    color: #b5b6b8 !important;
+}
+
+
+.text-orange {
+    color: #ffa147 !important;
+}
+
+.bg-white {
+    background-color: #ffffff !important;
+}
+
+.bg-orange {
+    background-color: #ffa147 !important;
+}
+/** position */
+.landmark {
+    position: relative;
+    display: block;
+}
+
+/** lists */
+.list-bordered {
+    padding-left: 0;
+    list-style-position: inside;
+}
+.list-bordered li {
+    border-bottom: 1px solid #e5e5e5;
+    list-style-type: square;
+    padding: 10px 0;
+    margin: 0;
+}
+.list-bordered li:first-child {
+    padding-top: 0;
+}
+
+/** jumbotron */
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        padding: 25px 45px;
+    }
+}
+
+/** imageicon */
+.imageicon {
+    display: inline-block;
+    width: 52px;
+    height: 52px;
+    background: transparent none no-repeat 0 0;
+}
+.imageicon-actions {
+    background-image: url("../images/icon/actions.jpg");
+}
+.imageicon-mission {
+    background-image: url("../images/icon/mission.jpg");
+}
+.imageicon-partners {
+    background-image: url("../images/icon/partners.jpg");
+}
+
+/** misc */
+.more {
+    color: #0e80b6;
+    font-size: 12px;
+    float: right;
+}
+h1 .more, h2 .more, h3 .more, h4 .more {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+}
+
+/** ul */
+ul.square {
+    padding-left: 25px;
+    list-style-type: none;
+}
+ul.square li {
+    padding: 0 0 16px 12px;
+    line-height: 20px;
+    background-repeat: no-repeat;
+}
+ul.square li:before {
+    content: "■";
+    color: #0b80b7;
+    margin: 0 6px 0 -12px;
+    font-size: 8px;
+    vertical-align: middle;
+}
+
+/** lightbox */
+.lb-outerContainer, .lightbox .lb-outerContainer .lb-image {
+    border-radius: 0px;
+}
+.lb-dataContainer {
+    background-color: white;
+    border-radius: 0px;
+    padding-top: 0;
+}
+.lb-dataContainer .lb-data {
+    padding: 6px 10px 10px 10px;
+}
+.lb-data:before {
+    display: table;
+    content: " ";
+}
+.lb-data:after {
+    display: table;
+    content: " ";
+    clear: both;
+}
+.lb-data .lb-details {
+    color: #333;
+}
+.lb-data .lb-caption {
+    font-size: inherit;
+    font-weight: normal;
+    line-height: inherit;
+}
+
+/*** todo */
+.attr_image{float:left;margin-left:0;margin-right:15px;border:none;}

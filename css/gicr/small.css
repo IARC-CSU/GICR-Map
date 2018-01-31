@@ -1,0 +1,30 @@
+/** small screens */
+@media screen and (max-width: 600px) {
+
+/** layout */
+body {
+    padding: 0 2px;
+}
+.banner h1 {
+    font-size: 14px;
+}
+.banner h1 span {
+    font-size: 12px;
+}
+#header {
+    height: 90px;
+}
+
+/** hidden */
+#website-logo-position,
+#topmenu {
+    display: none;
+}
+
+/** shown */
+#topmenu-small {
+    display: block;
+}
+
+
+}

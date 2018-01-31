@@ -18,7 +18,13 @@
     {
         hubs_per_name[ hubs[h].name ] = hubs[h] ; 
         hubs_per_code[ hubs[h].code ] = hubs[h] ; 
-        $('.line').append('<div class="line-hub" style="background-color:'+hubs[h].color+';"></div>')
+
+        $('.line').append('<div class="line-hub" style="background-color:'+hubs[h].color+';"></div>');
+
+        var css = 'border-top:solid 3px '+hubs[h].color 
+        css += '' ; 
+
+        $('.bottom_list').append('<div class="col-md-2"><a href="#" style="'+css+'">'+hubs[h].label+'</a></div>') ; 
     }
 
     var GICR = {
@@ -61,12 +67,20 @@
     if ( $(window).width() > 1480 )
     {
         scale = 320 ; 
-        translate = { 'x' : 0 , 'y' : 200 } ; 
+        translate = { 'x' : 0 , 'y' : 200 } ;     
     }
     else if ( $(window).width() > 1280 )
     {
-        scale = 230 ;
-        translate = { 'x' : 0 , 'y' : 80 } ; 
+        if ( document.location.pathname == '/index2.html' || document.location.pathname == '/index3.html' )
+        {
+            scale = 250 ;
+            translate = { 'x' : 0 , 'y' : 40 } ;
+        }
+        else
+        {
+            scale = 230 ;
+            translate = { 'x' : 0 , 'y' : 80 } ; 
+        }
     }
     else
     {
@@ -78,7 +92,7 @@
         'type'      : 'map' , 
         'title'     : false , 
         'width'     : $(window).width()  , 
-        'height'    : $(window).height() - 150  , 
+        'height'    : $(window).height() - 160  , 
         'container' : '#map-container',
         'id'        : 'map-graph' , 
         'data'      : {
@@ -814,6 +828,8 @@
                         } */
                         else
                         {
+                            if ( document.location.pathname == '/index3.html' ) return '#0b80b7' ; 
+
                             switch ( level )
                             {
                                 case 0 : 
@@ -1025,7 +1041,7 @@
                     {
                         if ( hub.code == site_visits[h].hub_code && site_visits[h].status == 'Completed' )
                         {
-                            $('.list_visits').append('<li><a href="#">'+site_visits[h].period+' - '+site_visits[h].country+': '+site_visits[h].comments+'</a></li>') ; 
+                            $('.list_visits').append('<li><a href="/site-visit.html" rel="gallery" class="fancybox fancybox.iframe">'+site_visits[h].period+' - '+site_visits[h].country+': '+site_visits[h].comments+'</a></li>') ; 
                         }
                     }
 
@@ -1036,12 +1052,20 @@
                         if ( hub.code == trainings[h].hub_code && trainings[h].status == 'Completed' )
                         {
                             var the_date = ( trainings[h].dates == undefined ) ? trainings[h].period : trainings[h].dates ; 
-                            $('.list_courses').append('<li><a href="#">'+trainings[h].period+' - '+trainings[h].place+', '+trainings[h].country+' ('+the_date+')</a></li>') ; 
+                            $('.list_courses').append('<li><a href="/course.html"  rel="gallery" class="fancybox fancybox.iframe" >'+trainings[h].period+' - '+trainings[h].place+', '+trainings[h].country+' ('+the_date+')</a></li>') ; 
                         }
                     }
 
                     // console.info( trainings ) ;
                 }
+
+                $('a.fancybox').fancybox({
+                    'type'          : 'iframe',
+                    'transitionIn'  : 'elastic' ,
+                    'transitionOut' : 'elastic' ,
+                    'speedIn'       : 600 , 
+                    'speedOut'      : 200
+                }) ; 
 
 
                 switch( hub_id )
