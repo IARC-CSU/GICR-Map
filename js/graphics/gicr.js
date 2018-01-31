@@ -202,11 +202,11 @@
                         .attr("transform", "translate("+CanMapConf.chart.globe_translate.x+","+CanMapConf.chart.globe_translate.y+")")
                     ;
 
-                    CanGraphRadiusBubble = d3.scale.sqrt()
+                    CanGraphRadiusBubble = d3.scaleSqrt()
                         .domain([ 0, 10 ])
                         .range([ 0, 15 ]);
 
-                    rectangle_area = d3.scale.sqrt()
+                    rectangle_area = d3.scaleSqrt()
                         .domain([ 0, 10 ])
                         .range([ 0, 50 ]);
 
@@ -465,7 +465,7 @@
                     }
                 }
 
-                // buildGlobalIndicators({ 'site_visits' : site_visits , 'trainings' : trainings , 'agreements' : results[8] }) ; 
+                buildGlobalIndicators({ 'site_visits' : site_visits , 'trainings' : trainings , 'agreements' : [] }) ; 
 
                 grabGicrValues(); 
 
@@ -494,9 +494,12 @@
     {
         agreements = data.agreements ; 
 
+        console.info( hubs ) ; 
+
         var site_visits_per_hubs = d3.nest()
             .key( function(d){ 
-                var hub = getCountryHub( d.country ) ; 
+                var country = getCountryById( d.country ) ; 
+                var hub = getHubById( country.hub ) ;
                 
                 return hub.code ; 
             })
@@ -515,12 +518,12 @@
 
         var trainings_per_hubs = d3.nest()
             .key( function(d){ 
-                var hub = {} ; 
-                var hub_rel = d.country[0].hub ;
-                for ( var h in hub_rel ) {
-                    hub = hub_rel[h] ; 
-                    break ; 
-                }
+
+                var country = getCountryById( d.country ) ; 
+                var hub = getHubById( country.hub ) ;
+
+                console.info( d.title.rendered , '['+country.name+']' , d.country, country.hub , hub.name  ) ; 
+
                 return hub.code ; 
             })
             .rollup( function( hub ) { 
@@ -942,6 +945,22 @@
         for ( var i in countries )
         {
             if ( countries[i].iso == iso )
+            {
+                country = countries[ i ] ; 
+                break ; 
+            }
+        }
+
+        return country ; 
+    }
+
+    var getCountryById  = function( id )
+    {
+        var country ; 
+
+        for ( var i in countries )
+        {
+            if ( countries[i].id == id )
             {
                 country = countries[ i ] ; 
                 break ; 
