@@ -1,4 +1,5 @@
 	
+<<<<<<< HEAD
     // Constants
 	const PROJECT 			= 'map' ; 
     const host     = "http://gicrdev.iarc.lan/cms/" ; 
@@ -6,11 +7,40 @@
     const hubs = [] ; 
     const hubs_per_name = [] ;
     const hubs_per_code = [] ;  
-    const GICR = {
+	var PROJECT = 'map' ; 
+
+    var hubs = [
+        { 'id' : 1 , 'code' : 'AFCRN' , 'name' : 'SS-Africa' , 'label' : 'Sub-Saharian Africa', 'color' : '#71C8E3' , 'plot_name' : 'ZAF' , 'plot_translate' : { 'x' : 150 , 'y' : -250 } } , 
+        { 'id' : 2 , 'code' : 'IZMIR' , 'name' : 'NA,C-Africa, W.Asia' , 'label' : 'Northern Africa, Central and Western Asian', 'color' : '#724A98' , 'plot_name' : 'MAR' , 'plot_translate' : { 'x' : 250 , 'y' : -180 } } , 
+        { 'id' : 3 , 'code' : 'MUMB' , 'name' : 'S,E,SE Asia' , 'label' : 'South, Eastern and South-Eastern Asia',  'color' : '#2EAF81' , 'plot_name' : 'CHN' , 'plot_translate' : { 'x' :  250 , 'y' : -350 }} , 
+        { 'id' : 4 , 'code' : 'PI' , 'name' : 'Pacific' , 'label' : 'Pacific Islands',  'color' : '#ff6600' , 'plot_name' : 'FJI' , 'plot_translate' : { 'x' : 90 , 'y' : -160 } } , 
+        { 'id' : 5 , 'code' : 'CARIB' , 'name' : 'Carribean' , 'label' : 'Carribean',  'color' : '#b21c01' , 'plot_name' : 'SUR' , 'plot_translate' : { 'x' : 100 , 'y' : -150 } } ,
+        { 'id' : 6 , 'code' : 'LA' , 'name' : 'LatAm' , 'label' : 'Latin America',  'color' : '#cca300', 'plot_name' : 'PER' , 'plot_translate' : { 'x' : 100 , 'y' : -280 }}
+    ] ; 
+
+    hubs.sort( function(a, b){ return a.key > b.key; } );
+
+    var hubs_per_name = [] ;
+    var hubs_per_code = [] ;  
+    for ( var h in hubs ) 
+    {
+        hubs_per_name[ hubs[h].name ] = hubs[h] ; 
+        hubs_per_code[ hubs[h].code ] = hubs[h] ; 
+
+        $('.line').append('<div class="line-hub" style="background-color:'+hubs[h].color+';"></div>');
+
+        var css = 'border-top:solid 3px '+hubs[h].color 
+        css += '' ; 
+
+        $('.bottom_list').append('<div class="col-md-2"><a href="#" style="'+css+'">'+hubs[h].label+'</a></div>') ; 
+    }
+
+    var GICR = {
         'default_color'     : '#e3e3e3' , 
         'visits_color'      : '#000066' , 
         'trainings_color'   : '#006837 '
     }
+
     const brewer_color = 'RdPu'; 
     const brewer_nb    = 4 ; 
     const map_width   = $(window).width(); 
@@ -42,12 +72,20 @@
     if ( $(window).width() > 1480 )
     {
         scale = 320 ; 
-        translate = { 'x' : 0 , 'y' : 200 } ; 
+        translate = { 'x' : 0 , 'y' : 200 } ;     
     }
     else if ( $(window).width() > 1280 )
     {
-        scale = 230 ;
-        translate = { 'x' : 0 , 'y' : 80 } ; 
+        if ( document.location.pathname == '/index2.html' || document.location.pathname == '/index3.html' )
+        {
+            scale = 250 ;
+            translate = { 'x' : 0 , 'y' : 40 } ;
+        }
+        else
+        {
+            scale = 230 ;
+            translate = { 'x' : 0 , 'y' : 80 } ; 
+        }
     }
     else
     {
@@ -60,7 +98,7 @@
         'type'      : 'map' , 
         'title'     : false , 
         'width'     : $(window).width()  , 
-        'height'    : $(window).height() - 150  , 
+        'height'    : $(window).height() - 160  , 
         'container' : '#map-container',
         'id'        : 'map-graph' , 
         'data'      : {
@@ -881,6 +919,8 @@
                         } */
                         else
                         {
+                            if ( document.location.pathname == '/index3.html' ) return '#0b80b7' ; 
+
                             switch ( level )
                             {
                                 case 0 : 
@@ -1146,7 +1186,7 @@
                         var c_hub = getCountryHub( site_visits[h].country )  ; 
                         if ( hub.code == c_hub.code && site_visits[h].visit_status[0] == 'completed' )
                         {
-                            $('.list_visits').append('<li><a href="#">'+site_visits[h].year+' - '+site_visits[h].country[0].name+'</a></li>') ; 
+                            $('.list_visits').append('<li><a href="/site-visit.html" rel="gallery" class="fancybox fancybox.iframe">'+site_visits[h].period+' - '+site_visits[h].country+': '+site_visits[h].comments+'</a></li>') ; 
                         }
                     }
 
@@ -1157,13 +1197,21 @@
                         var c_hub = getCountryHub( trainings[h].country )  ; 
                         if ( hub.code == c_hub.code && trainings[h].course_status[0] == 'completed' )
                         {
-                            // var the_date = ( trainings[h].dates == undefined ) ? trainings[h].period : trainings[h].dates ; 
-                            $('.list_courses').append('<li><a href="#">'+trainings[h].year+' - '+trainings[h].location+', '+trainings[h].country[0].name+' </a></li>') ; 
+                            var the_date = ( trainings[h].dates == undefined ) ? trainings[h].period : trainings[h].dates ; 
+                            $('.list_courses').append('<li><a href="/course.html"  rel="gallery" class="fancybox fancybox.iframe" >'+trainings[h].period+' - '+trainings[h].place+', '+trainings[h].country+' ('+the_date+')</a></li>') ; 
                         }
                     }
 
                     // console.info( trainings ) ;
                 }
+
+                $('a.fancybox').fancybox({
+                    'type'          : 'iframe',
+                    'transitionIn'  : 'elastic' ,
+                    'transitionOut' : 'elastic' ,
+                    'speedIn'       : 600 , 
+                    'speedOut'      : 200
+                }) ; 
 
 
                 var hub_settings = hubCentroidPerId( hub_id ) ; 

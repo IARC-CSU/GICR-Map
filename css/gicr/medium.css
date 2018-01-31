@@ -1,0 +1,31 @@
+/** medium screens */
+@media screen and (max-width: 800px) {
+
+/** layout */
+.banner h1 {
+    font-size: 20px;
+}
+.banner h1 span {
+    font-size: 15px;
+}
+.banner .section .title {
+    font-size: 20px;
+}
+
+
+#topmenu > li > a {
+    font-size: 10px;
+}
+#topmenu > li > .submenu > li > a {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/** parallax */
+.parallax-sidebar {
+
+}
+
+
+
+}
