@@ -1,611 +1,1290 @@
-	
-	path.country{
-		stroke: #ffffff ; 
-		stroke-width: 0.3;
-		fill-opacity: 1 ;
-	}
-
-	path.country.hover{
-		fill-opacity: 0.7 !important;
-	}
-
-	img#iarc{
-		position: absolute;
-		bottom: -55px;
-		left: 50px ;
-		height: 30px ; 
-	}
-
-	img#who{
-		position: absolute;
-		bottom: -55px;
-		right: 50px ;
-		width: 45px ; 
-	}
-
-	div#copyright-footer-map{
-		position: absolute;
-	    bottom: -55px;
-	    width: 200px;
-	    right: 950px;
-	    font-size: 0.8em;
-	    text-align: justify;
-	    line-height: 14px;
-	}
-
-	div#txt-footer-map{
-		position: absolute;
-	    bottom: -55px; 
-    	width: 80%;
-    	left: 200px;
-	    font-size: 0.6em;
-	    text-align: center ;
-	    line-height: 14px;
-	}
-
-	.footer-map{
-    	position: relative ; 
-	}
-
-	svg#legend{
-	    position: absolute;
-	    left: 450px ; 
-	    bottom: -40px ;
-	}
-
-	svg#legend_bubble{
-		position: absolute;
-	    left: 650px;
-	    bottom: -40px;
-	}
-
-	svg#legend .for_bubble{
-		display: none ; 
-	}
-
-	.unit-label {
-	    font-size: 16px;
-	    font-weight: 500;
-	    text-anchor: middle;
-	    text-decoration: underline;
-	}
-
-	.subunit-label {
-	    fill: #777575;
-	    fill-opacity: 0;
-	    font-size: 2px;
-	    font-weight: 300;
-	    text-anchor: middle;
-	}
-
-	.subunit-label.selected {
-	    fill: #000 ; 
-	    font-size: 6px ; 
-	}
-
-	.subunit-label.shown{
-		fill-opacity: 1;
-	}
-
-	.subunit-label.zoomed{
-		fill-opacity: 0.6 ; 
-	}
-
-	div#hubPanel,div#countryPanel,div#hubActvities{
-	    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.3); 
-	    position: absolute;
-	    top: 120px ; 
-	    right: -53% ; 
-	    transition: all .7s ease-in-out;
-	    background-color: #f7f7f7 ; 
-	    padding: 25px ; 
-	    width: 50% ; 
-	    height: 65% ; 
-	    overflow-y: auto ;
-	    z-index: 2;
-	}
-
-	div#hubPanel a.close,div#countryPanel a.close,div#hubActvities a.close{
-	    display: block;
-	    width: 25px;
-	    height: 25px;
-	    position: absolute;
-	    right: 20px;
-	    top: 20px;
-	    text-align: center;
-	    color: #fff;
-	    font-weight: 900;
-	    background: #fff ;
-	    border-radius: 15px ;
-	    cursor: pointer ; 
-	}
-
-	div#hubPanel a.close:hover,div#countryPanel a.close:hover,div#hubActvities a.close:hover{
-		text-decoration: none; 
-		opacity: 0.7 ;
-	}
-
-
-	div#hubPanel.show,div#countryPanel.show{
-	    right: 0px ; 
-	}
-
-	div#hubPanel h2{
-	    color: #1e4273 ;
-	    width: 100% ; 
-	}
-
-	div#hubPanel div{
-	    text-align: justify ; 
-	    font-size: 0.9em ; 
-	    line-height: 15px ; 
-	}
-
-	div#hubPanel #gallery_hub{
-	    float: left ; 
-	    width: 100% ; 
-	    padding-left: 0px ; 
-	    margin-bottom: 0px ; 
-	}
-
-	div#hubPanel #gallery_hub li{
-	    float: left ; 
-	    margin-right: 10px ; 
-	    position: relative ; 
-	}
-
-	div#hubPanel #gallery_hub li img.zoom{
-	    position: absolute ; 
-	    display: block ; 
-	    transition: all .7s ease-in-out ;
-	    width: 30px;
-	    left: 50%;
-	    margin-left: -15px ;
-	    margin-top: 35px ;
-	    display: block ;
-	}
-
-	div#hubPanel #gallery_hub li img.zoom.show{
-	    display: none ; 
-	}
-
-	div#hubPanel #gallery_hub li img.gallery{
-	    height: 100px ;
-	    opacity: 0.7; 
-	}
-
-	div#hubPanel #gallery_hub li img.gallery:hover{
-	    opacity: 1 ; 
-	}
-
-	div#hubPanel #gallery_hub li img.gallery:hover + img.zoom{
-	    display: block ; 
-	}
-
-	ul.list_visits,ul.list_courses{
-		width: 40% ; 
-		float: left ;
-	}
-
-	ul.list_visits li,ul.list_courses li{
-		float: left ;
-		width: 100% ; 
-	}
-
-	#hubPanel p,#hubPanel div,{
-	    line-height: 17px ;
-	    text-align: justify ; 
-	    float: left ; 
-	}
-
-	div#hubPanel.show,div#countryPanel.show,div#hubActvities.show{
-	    right: 0px ; 
-	}
-
-	div#hubPanel p img,div#hubActvities p img{
-		margin-bottom: 10px ; 
-	}
-
-	div#hubPanel p img[align="left"]{
-		margin-right: 10px ;
-		margin-bottom: 0px ; 
-	}
-
-	div#hubPanel p img[align="right"]{
-		margin-left: 10px ;
-		margin-bottom: 0px ; 
-	}
-
-	div.hub-line{
-		position: absolute;
-		width: 100%;
-		left: 0 ; 
-		height: 3px ; 
-	}
-
-	div.hub-line.top{
-		top: 0 ; 
-	}
-
-	div.hub-line.bottom{
-		bottom: 0 ; 
-	}
-
-	div#hubPanel h2,div#countryPanel h2{
-	    color: #1e4273 ;
-	    width: 100% ; 
-	}
-
-	div#hubPanel h3,div#countryPanel h3{
-	    font-size: 14px;
-	    color: #000 ; 
-	    padding: 5px 0px ; 
-	    border-bottom: solid 2px white ; 
-	    float: left;
-    	width: 100%;
-	}
-
-	h3.countries-hub-list-title{
-		border-bottom: none !important ; 
-	}
-
-	div#countryPanel p{
-		padding-left: 5px ;
-		font-size: 0.9em;
-	    line-height: 14px;
-	    text-align: justify; 
-	}
-
-	div#countryPanel .tab-content ul{
-		width: 100% ; 
-		line-height: 16px;
-   		margin-top: 0px;
-   	    font-size: 0.9em;
-	}
-
-	div#countryPanel ul li{
-	    max-width: 90%;
-	}
-
-	div#countryPanel p img{
-		max-width: 50% ; 
-		height: auto ; 
-		margin: 0 15px 5px 0;
-	}
-
-	div#countryPanel #chart{
-	    width: 550px ; 
-	    height: 250px ; 
-	}
-
-	div#countryPanel .tab-content ul li{
-		list-style-type: disc ; 
-
-	}
-
-	button.btn_zoom{
-		position: absolute;
-	}
-
-	ul.hubCountries{
-		padding-left: 0px ; 
-		display: block ; 
-		float: left ; 
-		width: 100% ;
-	    margin: 0 ;
-	}
-
-	ul.hubCountries li{
-	    float: left ; 
-	    width: auto ; 
-	    margin: 0 5px 5px 0 ;
-	}
-
-	ul.hubCountries li a{
-	    display: block;
-	    border-left: solid 3px transparent ;
-	    padding: 3px 5px ;   
-	    font-size: 11px; 
-	    line-height: 14px ;
-	    transition: all .1s ease-in-out;
-	    text-decoration: none ; 
-	    color: #fff ; 
-	}
-
-	ul.hubCountries li a:hover{
-		background: #ccc ; 
-	}
-
-	.canTooltip{
-		width: 150px ; 
-		padding: 10px ;
-		background: #ccc ;
-		box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.3); 
-		position: absolute;
-		top: 95px;
-		display: none ; 
-		z-index: 10 ; 
-	}
-
-	.canTooltip .tooltip-line{
-		position: absolute ;
-		width: 100% ; 
-		top: 0 ; 
-		left: 0 ; 
-		height: 3px ;
-	}
-
-	.canTooltip h2{
-		padding: 0 ; 
-		margin: 0 ;
-		color: #3d3a3a ; 
-		font-size : 13px ; 
-		text-align: center ; 
-		line-height: 14px ; 
-	}
-
-	.canTooltip h2 span{
-		font-size : 11px ; 
-		color: #000 ; 
-		padding-left: 10px ; 
-	}
-
-	.canTooltip p{
-		font-size: 10px ; 
-		line-height: 13px ; 
-	}
-
-	.tabs-menu {
-	    height: 30px;
-	    float: left;
-	    clear: both;
-	    padding: 0;
-    	margin: 0;
-	}
-
-	.tabs-menu li {
-	    height: 30px;
-	    line-height: 30px;
-	    float: left;
-	    float: left;
-    	padding: 0 5px;
-	    margin-right: 10px;
-	    background-color: #ccc;
-	    border-top: 1px solid #d4d4d1;
-	    border-right: 1px solid #d4d4d1;
-	    border-left: 1px solid #d4d4d1;
-	}
-
-	.tabs-menu li.current {
-	    position: relative;
-	    background-color: #fff;
-	    border-bottom: 1px solid #fff;
-	    z-index: 5;
-	}
-
-	.tabs-menu li a {
-	    color: #fff;
-	    text-decoration: none;
-    	font-size: 0.9em; 
-	}
-
-	.tabs-menu .current a {
-	    color: #2e7da3;
-	}
-
-	.tab {
-	    border: 1px solid #d4d4d1;
-	    background-color: #fff;
-	    float: left;
-	    width: 100%;
-	    margin-bottom: 20px;
-	}
-
-	.tab-content {
-	    width: 95%;
-    	padding: 10px;
-	    display: none;
-	    font-size: 0.9em;
-	}
-
-	.tab-content table{
-		width: 100% ; 
-		margin: 5px 0 ; 
-		border-collapse: collapse ; 
-		display: block;
-    	position: relative;
-	}
-
-	.tab-content table tr:nth-child(odd){
-		background-color: #e0dede ; 
-	}
-
-	.tab-content table tr td{
-		padding: 3px ; 
-		width: 50% ; 
-		font-size: 0.8em ; 
-	}
-
-	.tab-content table tr td:nth-child(2){
-		text-align: right ; 
-	}
-
-	#tab-1 {
-	 display: block;   
-	}
-
-	ul.hubs-list{
-	    margin: auto;
-	    position: absolute ; 
-	    padding-left: 0px;
-	    bottom: 150px;
-	    left: 50px;
-	    width: 300px ;
-	}
-
-	ul.hubs-list.hidden{
-		display: none ; 
-	}
-
-	ul.hubs-list li{
-	    list-style-type:  none ; 
-	    display: inline-block ;
-	    float: left ;  
-	    width: 100%;
-	    height: 20px;
-	    vertical-align: top;
-	    margin-top: 0px;
-	}
-
-	ul.hubs-list li a{
-	    font-size: 0.8em ;
-	    text-decoration: none ; 
-	}
-
-	ul.hubs-list li span{
-	    width: 30px;
-	    height: 10px;
-	    display: inline-block;
-	    margin-right: 5px;
-	}
-
-	ul.activities-list{
-	    margin: auto;
-	    position: absolute ; 
-	    padding-left: 0px;
-	    bottom: 350px;
-	    left: 50px;
-	    width: 275px ;
-	    display: none ; 
-	    font-size: 0.9em;
-	}
-
-	ul.activities-list.hidden{
-		display: none ; 
-	}
-
-	ul.activities-list li{
-	    list-style-type:  none ; 
-	    display: inline-block ;
-	    float: left ;  
-	    width: 100%;
-	    height: 20px;
-	    vertical-align: top;
-	    margin-top: 0px;
-	    font-size: 0.8em;
-	}
-
-	ul.activities-list li a{
-	    text-decoration: none ; 
-	}
-
-	ul.activities-list li span{
-	    width: 30px;
-	    height: 10px;
-	    display: inline-block;
-	    margin-right: 5px;
-	    text-align: center ; 
-	}
-
-	ul.activities-list li svg{
-		margin-right: 5px ; 
-	}
-
-	.place-label{
-		font-size: 0.1em ;
-		display: none ; 
-	}
-
-	.place-label.show{
-		display: block ; 
-	}
-
-	span.nb_courses{
-		font-size: 0.8em ; 
-	}
-
-	table caption{
-	    text-align: left;
-	    font-weight: bold ; 
-	}
-
-	table#global_indicators{
-		position: absolute;
-	    bottom: 130px ;
-	    left: 50px;
-	    border: solid 1px #ccc;
-	    font-size: 1em;
-	    display: none;
-	    width: 25%;
-		background: #fff ; 
-
-	}
-
-	table#global_indicators th{
-		background: #037AB3; 
-		color: #fff ;
-	}
-
-	table#global_indicators th:first{
-		width: 120px ; 
-	}
-
-	table#global_indicators th,table#global_indicators td{
-		border: solid 1px #ccc;
-		padding: 1px 5px ; 
-		font-size: 0.9em;
-		line-height: 15px;
-	}
-
-	table#global_indicators td.value{
-		text-align: right; 
-	}
-
-	a[data-fancybox="gallery"].hidden{
-		display: none ; 
-	}
-
-	.annotation path {
-	    fill: none;
-	    stroke: #222222;
-	    stroke-width: 2
-  	}
-
-  	.annotation text {
-    	fill: #000000;
-  	}
-  	.annotation tspan {
-  	
-  	}
-
-  	.annotation-note-title {
-    	font-weight: bold;
-  	}
-
-  	.annotation-note-bg {
-    	fill: #cccccc ;
-    	fill-opacity: 0.9;
-    	filter: url(#blur-effect);
-  	}
-
-
-   	circle.handle {
-	    stroke-dasharray: 3;
-	    stroke: #000000 ;
-	    fill: rgba(255, 255, 255, .5);
-	    cursor: move;
-	    stroke-opacity: .4;
-	    stroke-width: 1.5; 
-  	}
-
-  	circle.handle.highlight {
-    	stroke-opacity: 1;
-  	}
-
-  	.annotation-tip .annotation path {
-    	stroke: white;
-  	}
-  	
-  	.annotation-tip .annotation text {
-    	fill: white;
-  	}
+/* line 2, ../../scss/graphics/map.scss */
+path.country {
+  stroke: #ffffff;
+  stroke-width: 0.3;
+  fill-opacity: 1;
+}
+
+/* line 8, ../../scss/graphics/map.scss */
+path.country.hover {
+  fill-opacity: 0.7 !important;
+}
+
+/* line 12, ../../scss/graphics/map.scss */
+img#iarc {
+  position: absolute;
+  bottom: -55px;
+  left: 50px;
+  height: 30px;
+}
+
+/* line 19, ../../scss/graphics/map.scss */
+img#who {
+  position: absolute;
+  bottom: -55px;
+  right: 50px;
+  width: 45px;
+}
+
+/* line 26, ../../scss/graphics/map.scss */
+div#copyright-footer-map {
+  position: absolute;
+  bottom: -55px;
+  width: 200px;
+  right: 950px;
+  font-size: 0.8em;
+  text-align: justify;
+  line-height: 14px;
+}
+
+/* line 36, ../../scss/graphics/map.scss */
+div#txt-footer-map {
+  position: absolute;
+  bottom: -55px;
+  width: 80%;
+  left: 200px;
+  font-size: 0.6em;
+  text-align: center;
+  line-height: 14px;
+}
+
+/* line 46, ../../scss/graphics/map.scss */
+.footer-map {
+  position: relative;
+}
+
+/* line 50, ../../scss/graphics/map.scss */
+svg#legend {
+  position: absolute;
+  left: 450px;
+  bottom: -40px;
+}
+
+/* line 56, ../../scss/graphics/map.scss */
+svg#legend_bubble {
+  position: absolute;
+  left: 650px;
+  bottom: -40px;
+}
+
+/* line 62, ../../scss/graphics/map.scss */
+svg#legend .for_bubble {
+  display: none;
+}
+
+/* line 66, ../../scss/graphics/map.scss */
+.unit-label {
+  font-size: 16px;
+  font-weight: 500;
+  text-anchor: middle;
+  text-decoration: underline;
+}
+
+/* line 73, ../../scss/graphics/map.scss */
+.subunit-label {
+  fill: #777575;
+  fill-opacity: 0;
+  font-size: 2px;
+  font-weight: 300;
+  text-anchor: middle;
+}
+
+/* line 81, ../../scss/graphics/map.scss */
+.subunit-label.selected {
+  fill: #000;
+  font-size: 6px;
+}
+
+/* line 86, ../../scss/graphics/map.scss */
+.subunit-label.shown {
+  fill-opacity: 1;
+}
+
+/* line 90, ../../scss/graphics/map.scss */
+.subunit-label.zoomed {
+  fill-opacity: 0.6;
+}
+
+/* line 94, ../../scss/graphics/map.scss */
+div#hubPanel, div#countryPanel, div#hubActvities {
+  box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 120px;
+  right: -53%;
+  transition: all .7s ease-in-out;
+  background-color: #f7f7f7;
+  padding: 25px;
+  width: 50%;
+  height: 65%;
+  overflow-y: auto;
+  z-index: 2;
+}
+/* line 108, ../../scss/graphics/map.scss */
+div#hubPanel a.close, div#countryPanel a.close, div#hubActvities a.close {
+  display: block;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  text-align: center;
+  color: #fff;
+  font-weight: 900;
+  background: #fff;
+  border-radius: 15px;
+  cursor: pointer;
+}
+/* line 122, ../../scss/graphics/map.scss */
+div#hubPanel a.close:hover, div#countryPanel a.close:hover, div#hubActvities a.close:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
+/* line 128, ../../scss/graphics/map.scss */
+div#hubPanel .show, div#countryPanel .show, div#hubActvities .show {
+  right: 0px;
+}
+/* line 132, ../../scss/graphics/map.scss */
+div#hubPanel h2, div#countryPanel h2, div#hubActvities h2 {
+  color: #1e4273;
+  width: 100%;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+/* line 140, ../../scss/graphics/map.scss */
+div#hubPanel div, div#countryPanel div, div#hubActvities div {
+  text-align: justify;
+  font-size: 13px;
+  line-height: 15px;
+}
+/* line 146, ../../scss/graphics/map.scss */
+div#hubPanel #gallery_hub, div#countryPanel #gallery_hub, div#hubActvities #gallery_hub {
+  float: left;
+  width: 100%;
+  padding-left: 0px;
+  margin-bottom: 0px;
+}
+/* line 152, ../../scss/graphics/map.scss */
+div#hubPanel #gallery_hub li, div#countryPanel #gallery_hub li, div#hubActvities #gallery_hub li {
+  float: left;
+  margin-right: 10px;
+  position: relative;
+}
+/* line 157, ../../scss/graphics/map.scss */
+div#hubPanel #gallery_hub li img.zoom, div#countryPanel #gallery_hub li img.zoom, div#hubActvities #gallery_hub li img.zoom {
+  position: absolute;
+  display: block;
+  transition: all 0.7s ease-in-out;
+  width: 30px;
+  left: 50%;
+  margin-left: -15px;
+  margin-top: 35px;
+  display: block;
+}
+/* line 168, ../../scss/graphics/map.scss */
+div#hubPanel #gallery_hub li img.gallery, div#countryPanel #gallery_hub li img.gallery, div#hubActvities #gallery_hub li img.gallery {
+  height: 100px;
+  opacity: 0.7;
+}
+/* line 171, ../../scss/graphics/map.scss */
+div#hubPanel #gallery_hub li img.gallery:hover, div#countryPanel #gallery_hub li img.gallery:hover, div#hubActvities #gallery_hub li img.gallery:hover {
+  opacity: 1;
+}
+/* line 174, ../../scss/graphics/map.scss */
+div#hubPanel #gallery_hub li img.gallery:hover + img.zoom, div#countryPanel #gallery_hub li img.gallery:hover + img.zoom, div#hubActvities #gallery_hub li img.gallery:hover + img.zoom {
+  display: block;
+}
+
+/* line 186, ../../scss/graphics/map.scss */
+ul.list_visits, ul.list_courses {
+  width: 40%;
+  float: left;
+}
+
+/* line 191, ../../scss/graphics/map.scss */
+ul.list_visits li, ul.list_courses li {
+  float: left;
+  width: 100%;
+}
+
+/* line 196, ../../scss/graphics/map.scss */
+#hubPanel p, #hubPanel div {
+  line-height: 17px;
+  text-align: justify;
+  float: left;
+}
+
+/* line 202, ../../scss/graphics/map.scss */
+div#hubPanel.show, div#countryPanel.show, div#hubActvities.show {
+  right: 0px;
+}
+
+/* line 206, ../../scss/graphics/map.scss */
+div#hubPanel p img, div#hubActvities p img {
+  margin-bottom: 10px;
+}
+
+/* line 210, ../../scss/graphics/map.scss */
+div#hubActvities h4 {
+  text-align: left;
+  padding: 0;
+}
+
+/* line 215, ../../scss/graphics/map.scss */
+div#hubPanel p img[align="left"] {
+  margin-right: 10px;
+  margin-bottom: 0px;
+}
+
+/* line 220, ../../scss/graphics/map.scss */
+div#hubPanel p img[align="right"] {
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
+
+/* line 226, ../../scss/graphics/map.scss */
+div.hub-line {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  height: 3px;
+}
+/* line 231, ../../scss/graphics/map.scss */
+div.hub-line.top {
+  top: 0;
+}
+/* line 234, ../../scss/graphics/map.scss */
+div.hub-line.bottom {
+  bottom: 0;
+}
+
+/* line 240, ../../scss/graphics/map.scss */
+div#hubPanel h2, div#countryPanel h2 {
+  color: #1e4273;
+  width: 100%;
+}
+/* line 244, ../../scss/graphics/map.scss */
+div#hubPanel h3, div#countryPanel h3 {
+  font-size: 14px;
+  color: #000;
+  padding: 5px 0px;
+  border-bottom: solid 2px white;
+  float: left;
+  width: 100%;
+}
+/* line 253, ../../scss/graphics/map.scss */
+div#hubPanel p, div#countryPanel p {
+  padding-left: 5px;
+  font-size: 0.9em;
+  line-height: 14px;
+  text-align: justify;
+}
+/* line 259, ../../scss/graphics/map.scss */
+div#hubPanel .tab-content ul, div#countryPanel .tab-content ul {
+  width: 100%;
+  line-height: 16px;
+  margin-top: 0px;
+  font-size: 0.9em;
+}
+/* line 266, ../../scss/graphics/map.scss */
+div#hubPanel ul li, div#countryPanel ul li {
+  max-width: 90%;
+}
+/* line 269, ../../scss/graphics/map.scss */
+div#hubPanel p img, div#countryPanel p img {
+  max-width: 50%;
+  height: auto;
+  margin: 0 15px 5px 0;
+}
+/* line 274, ../../scss/graphics/map.scss */
+div#hubPanel #chart, div#countryPanel #chart {
+  width: 550px;
+  height: 250px;
+}
+/* line 278, ../../scss/graphics/map.scss */
+div#hubPanel .tab-content ul li, div#countryPanel .tab-content ul li {
+  list-style-type: disc;
+}
+
+/* line 284, ../../scss/graphics/map.scss */
+div#countryPanel
+button.btn_zoom {
+  position: absolute;
+}
+
+/* line 290, ../../scss/graphics/map.scss */
+ul.hubCountries {
+  padding-left: 0px;
+  display: block;
+  float: left;
+  width: 100%;
+  margin: 0;
+  margin-top: 10px;
+}
+/* line 298, ../../scss/graphics/map.scss */
+ul.hubCountries li {
+  float: left;
+  width: auto;
+  margin: 0 5px 5px 0;
+}
+/* line 302, ../../scss/graphics/map.scss */
+ul.hubCountries li a {
+  display: block;
+  border-left: solid 3px transparent;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 14px;
+  transition: all .1s ease-in-out;
+  text-decoration: none;
+  color: #fff;
+}
+/* line 311, ../../scss/graphics/map.scss */
+ul.hubCountries li a:hover {
+  background: #ccc;
+}
+
+/* line 320, ../../scss/graphics/map.scss */
+.canTooltip {
+  width: 150px;
+  padding: 10px;
+  background: #ccc;
+  box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 95px;
+  display: none;
+  z-index: 10;
+}
+
+/* line 331, ../../scss/graphics/map.scss */
+.canTooltip .tooltip-line {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 3px;
+}
+
+/* line 339, ../../scss/graphics/map.scss */
+.canTooltip h2 {
+  padding: 0;
+  margin: 0;
+  color: #3d3a3a;
+  font-size: 13px;
+  text-align: center;
+  line-height: 14px;
+}
+
+/* line 348, ../../scss/graphics/map.scss */
+.canTooltip h2 span {
+  font-size: 11px;
+  color: #000;
+  padding-left: 10px;
+}
+
+/* line 354, ../../scss/graphics/map.scss */
+.canTooltip p {
+  font-size: 10px;
+  line-height: 13px;
+}
+
+/* line 359, ../../scss/graphics/map.scss */
+.tabs-menu {
+  height: 30px;
+  float: left;
+  clear: both;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 367, ../../scss/graphics/map.scss */
+.tabs-menu li {
+  height: 30px;
+  line-height: 30px;
+  float: left;
+  float: left;
+  padding: 0 5px;
+  margin-right: 10px;
+  background-color: #ccc;
+  border-top: 1px solid #d4d4d1;
+  border-right: 1px solid #d4d4d1;
+  border-left: 1px solid #d4d4d1;
+}
+
+/* line 380, ../../scss/graphics/map.scss */
+.tabs-menu li.current {
+  position: relative;
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  z-index: 5;
+}
+
+/* line 387, ../../scss/graphics/map.scss */
+.tabs-menu li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+/* line 393, ../../scss/graphics/map.scss */
+.tabs-menu .current a {
+  color: #2e7da3;
+}
+
+/* line 397, ../../scss/graphics/map.scss */
+.tab {
+  border: 1px solid #d4d4d1;
+  background-color: #fff;
+  float: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* line 405, ../../scss/graphics/map.scss */
+.tab-content {
+  width: 95%;
+  padding: 10px;
+  display: none;
+  font-size: 0.9em;
+}
+
+/* line 412, ../../scss/graphics/map.scss */
+.tab-content table {
+  width: 100%;
+  margin: 5px 0;
+  border-collapse: collapse;
+  display: block;
+  position: relative;
+}
+
+/* line 420, ../../scss/graphics/map.scss */
+.tab-content table tr:nth-child(odd) {
+  background-color: #e0dede;
+}
+
+/* line 424, ../../scss/graphics/map.scss */
+.tab-content table tr td {
+  padding: 3px;
+  width: 50%;
+  font-size: 0.8em;
+}
+
+/* line 430, ../../scss/graphics/map.scss */
+.tab-content table tr td:nth-child(2) {
+  text-align: right;
+}
+
+/* line 434, ../../scss/graphics/map.scss */
+#tab-1 {
+  display: block;
+}
+
+/* line 438, ../../scss/graphics/map.scss */
+ul.hubs-list {
+  margin: auto;
+  position: absolute;
+  padding-left: 0px;
+  bottom: 150px;
+  left: 50px;
+  width: 300px;
+  background: #fff;
+  padding: 0 5px 5px 5px;
+  border: solid 1px #ccc;
+}
+
+/* line 450, ../../scss/graphics/map.scss */
+ul.hubs-list.hidden {
+  display: none;
+}
+
+/* line 454, ../../scss/graphics/map.scss */
+ul.hubs-list li {
+  list-style-type: none;
+  display: inline-block;
+  float: left;
+  width: 100%;
+  height: 20px;
+  vertical-align: top;
+  margin-top: 0px;
+}
+
+/* line 464, ../../scss/graphics/map.scss */
+ul.hubs-list li a {
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+/* line 469, ../../scss/graphics/map.scss */
+ul.hubs-list li span {
+  width: 30px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* line 476, ../../scss/graphics/map.scss */
+ul.activities-list {
+  margin: auto;
+  position: absolute;
+  padding-left: 0px;
+  bottom: 350px;
+  left: 50px;
+  width: 275px;
+  display: none;
+  font-size: 0.9em;
+}
+
+/* line 487, ../../scss/graphics/map.scss */
+ul.activities-list.hidden {
+  display: none;
+}
+
+/* line 491, ../../scss/graphics/map.scss */
+ul.activities-list li {
+  list-style-type: none;
+  display: inline-block;
+  float: left;
+  width: 100%;
+  height: 20px;
+  vertical-align: top;
+  margin-top: 0px;
+  font-size: 0.8em;
+}
+
+/* line 502, ../../scss/graphics/map.scss */
+ul.activities-list li a {
+  text-decoration: none;
+}
+
+/* line 506, ../../scss/graphics/map.scss */
+ul.activities-list li span {
+  width: 30px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 5px;
+  text-align: center;
+}
+
+/* line 514, ../../scss/graphics/map.scss */
+ul.activities-list li svg {
+  margin-right: 5px;
+}
+
+/* line 523, ../../scss/graphics/map.scss */
+div#hubActvities .cd-container {
+  /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
+  width: 90%;
+  max-width: 1170px;
+  margin: 0 auto;
+}
+/* line 528, ../../scss/graphics/map.scss */
+div#hubActvities .cd-container::after {
+  /* clearfix */
+  content: '';
+  display: table;
+  clear: both;
+}
+/* line 535, ../../scss/graphics/map.scss */
+div#hubActvities #cd-timeline {
+  position: relative;
+  padding: 2em 0;
+}
+/* line 539, ../../scss/graphics/map.scss */
+div#hubActvities #cd-timeline::before {
+  /* this is the vertical line */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 18px;
+  height: 100%;
+  width: 4px;
+  background: #c5d8e5;
+}
+@media only screen and (min-width: 1170px) {
+  /* line 551, ../../scss/graphics/map.scss */
+  div#hubActvities #cd-timeline::before {
+    left: 50%;
+    margin-left: -2px;
+  }
+}
+/* line 558, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block {
+  position: relative;
+  margin: 2em 0;
+}
+/* line 562, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* line 568, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block:first-child {
+  margin-top: 0;
+}
+/* line 572, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block:last-child {
+  margin-bottom: 0;
+}
+/* line 579, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block.course .cd-timeline-content {
+  float: right;
+}
+/* line 582, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block.course .cd-timeline-content::before {
+  top: 24px;
+  left: auto;
+  right: 100%;
+  border-color: transparent;
+  border-right-color: white;
+}
+/* line 590, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block.course .cd-timeline-content .cd-read-more {
+  float: right;
+}
+/* line 594, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-block.course .cd-timeline-content .cd-date {
+  left: auto;
+  right: 122%;
+  text-align: right;
+}
+@media only screen and (min-width: 1170px) {
+  /* line 558, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-block {
+    margin: 1em 0;
+  }
+  /* line 606, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-block:first-child {
+    margin-top: 0;
+  }
+  /* line 610, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-block:last-child {
+    margin-bottom: 0;
+  }
+}
+/* line 616, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-img {
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 15px;
+  left: 50%;
+  margin-left: -25px;
+  padding: 5px 0 5px;
+  text-align: center;
+  background: #037AB3;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 5px;
+}
+/* line 630, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-img img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  margin-left: -12px;
+  margin-top: -12px;
+}
+@media only screen and (min-width: 1170px) {
+  /* line 645, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-img.is-hidden {
+    visibility: hidden;
+  }
+  /* line 649, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-img.bounce-in {
+    visibility: visible;
+    -webkit-animation: cd-bounce-1 0.6s;
+    -moz-animation: cd-bounce-1 0.6s;
+    animation: cd-bounce-1 0.6s;
+  }
+}
+@-webkit-keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  100% {
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-moz-keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  100% {
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-ms-keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  100% {
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  100% {
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+/* line 697, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content {
+  position: relative;
+  margin-left: 60px;
+  background: white;
+  padding: 1em;
+  box-shadow: 0 3px 0 #c5d8e5;
+}
+/* line 704, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content h2 {
+  color: black;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+/* line 712, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content p, div#hubActvities .cd-timeline-content .cd-read-more, div#hubActvities .cd-timeline-content .cd-date {
+  font-size: 13px;
+}
+/* line 716, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content .cd-read-more, div#hubActvities .cd-timeline-content .cd-date {
+  display: inline-block;
+}
+/* line 720, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content p {
+  margin: 1em 0;
+  line-height: 1.6;
+}
+/* line 725, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content .cd-read-more {
+  padding: 2px 7px;
+  background: #acb7c0;
+  color: white;
+  display: block;
+  border-radius: 4px;
+  font-size: 11px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+/* line 736, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content .cd-read-more:hover {
+  background: #ccc;
+  text-decoration: none;
+  color: #000;
+}
+/* line 742, ../../scss/graphics/map.scss */
+.no-touch div#hubActvities .cd-timeline-content .cd-read-more:hover {
+  background-color: #c9d0d6;
+}
+/* line 747, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content .cd-date {
+  float: left;
+  padding: .8em 0;
+  opacity: .7;
+}
+/* line 753, ../../scss/graphics/map.scss */
+div#hubActvities .cd-timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: 100%;
+  height: 0;
+  width: 0;
+  border: 7px solid transparent;
+  border-right: 7px solid white;
+}
+@media only screen and (min-width: 1170px) {
+  /* line 697, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content {
+    margin-left: 0;
+    padding: 10px;
+    width: 40%;
+    				/*.cd-timeline-block:nth-child(even) .cd-timeline-content, .cd-timeline-block.course .cd-timeline-content{
+    					float: right;
+    
+    					&::before {
+    						top: 24px;
+    						left: auto;
+    						right: 100%;
+    						border-color: transparent;
+    						border-right-color: $color-3;
+    					}
+    
+    					.cd-read-more {
+    						float: right;
+    					}
+    
+    					.cd-date {
+    						left: auto;
+    						right: 122%;
+    						text-align: right;
+    					}
+    				}*/
+  }
+  /* line 773, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content::before {
+    top: 24px;
+    left: 100%;
+    border-color: transparent;
+    border-left-color: white;
+  }
+  /* line 780, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content .cd-read-more {
+    float: left;
+  }
+  /* line 784, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content .cd-date {
+    position: absolute;
+    width: 100%;
+    left: 130%;
+    top: -10px;
+  }
+  /* line 813, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content.is-hidden {
+    visibility: hidden;
+  }
+  /* line 817, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content.bounce-in {
+    visibility: visible;
+    -webkit-animation: cd-bounce-1 0.6s;
+    -moz-animation: cd-bounce-1 0.6s;
+    animation: cd-bounce-1 0.6s;
+  }
+  /* line 824, ../../scss/graphics/map.scss */
+  div#hubActvities .cd-timeline-content.fade-in {
+    visibility: visible;
+    -webkit-animation: opacity  0.6s;
+    -moz-animation: opacity  0.6s;
+    animation: opacity  0.6s;
+  }
+}
+@media only screen and (min-width: 1170px) {
+  /* line 521, ../../scss/graphics/map.scss */
+  div#hubActvities {
+    /* inverse bounce effect on even content blocks */
+  }
+}
+@-webkit-keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-ms-keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(-100px);
+    -o-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(20px);
+    -o-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    -webkit-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-moz-keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(-100px);
+    -o-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(20px);
+    -o-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    -webkit-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-ms-keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(-100px);
+    -o-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(20px);
+    -o-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    -webkit-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(-100px);
+    -o-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(20px);
+    -o-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    -webkit-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-webkit-keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(-20px);
+    -o-transform: translateX(-20px);
+    -ms-transform: translateX(-20px);
+    -webkit-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-moz-keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(-20px);
+    -o-transform: translateX(-20px);
+    -ms-transform: translateX(-20px);
+    -webkit-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-ms-keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(-20px);
+    -o-transform: translateX(-20px);
+    -ms-transform: translateX(-20px);
+    -webkit-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(-20px);
+    -o-transform: translateX(-20px);
+    -ms-transform: translateX(-20px);
+    -webkit-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+/* line 879, ../../scss/graphics/map.scss */
+.place-label {
+  font-size: 0.1em;
+  display: none;
+}
+
+/* line 884, ../../scss/graphics/map.scss */
+.place-label.show {
+  display: block;
+}
+
+/* line 888, ../../scss/graphics/map.scss */
+span.nb_courses {
+  font-size: 0.8em;
+}
+
+/* line 892, ../../scss/graphics/map.scss */
+table caption {
+  text-align: left;
+  font-weight: bold;
+}
+
+/* line 897, ../../scss/graphics/map.scss */
+table#global_indicators {
+  position: absolute;
+  bottom: 130px;
+  left: 50px;
+  border: solid 1px #ccc;
+  font-size: 13px;
+  display: none;
+  width: 25%;
+  background: #fff;
+}
+/* line 907, ../../scss/graphics/map.scss */
+table#global_indicators th {
+  background: #037AB3;
+  color: #fff;
+}
+/* line 910, ../../scss/graphics/map.scss */
+table#global_indicators th:first {
+  width: 120px;
+}
+/* line 915, ../../scss/graphics/map.scss */
+table#global_indicators th, table#global_indicators td {
+  border: solid 1px #ccc;
+  padding: 1px 5px;
+  line-height: 15px;
+}
+/* line 921, ../../scss/graphics/map.scss */
+table#global_indicators td.value {
+  text-align: right;
+}
+
+/* line 926, ../../scss/graphics/map.scss */
+label[for="show_annotations"] {
+  position: absolute;
+  width: 150px;
+  font-size: 13px;
+  left: 50px;
+}
+
+/* line 933, ../../scss/graphics/map.scss */
+g.annotation-group {
+  display: none;
+}
+
+/* line 937, ../../scss/graphics/map.scss */
+a[data-fancybox="gallery"].hidden {
+  display: none;
+}
+
+/* line 944, ../../scss/graphics/map.scss */
+.annotation path {
+  fill: none;
+  stroke: #222222;
+  stroke-width: 2;
+}
+/* line 950, ../../scss/graphics/map.scss */
+.annotation text {
+  fill: #000000;
+}
+
+/* line 956, ../../scss/graphics/map.scss */
+.annotation-note-title {
+  font-weight: bold;
+}
+
+/* line 960, ../../scss/graphics/map.scss */
+.annotation-note-bg {
+  fill: #cccccc;
+  fill-opacity: 0.9;
+  filter: url(#blur-effect);
+}
+
+/* line 967, ../../scss/graphics/map.scss */
+circle.handle {
+  stroke-dasharray: 3;
+  stroke: #000000;
+  fill: rgba(255, 255, 255, 0.5);
+  cursor: move;
+  stroke-opacity: .4;
+  stroke-width: 1.5;
+}
+/* line 975, ../../scss/graphics/map.scss */
+circle.handle.highlight {
+  stroke-opacity: 1;
+}
+
+/* line 980, ../../scss/graphics/map.scss */
+.annotation-tip .annotation path {
+  stroke: white;
+}
+
+/* line 984, ../../scss/graphics/map.scss */
+.annotation-tip .annotation text {
+  fill: white;
+}

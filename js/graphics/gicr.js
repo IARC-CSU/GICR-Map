@@ -1,27 +1,25 @@
 	
-<<<<<<< HEAD
+
     // Constants
-	const PROJECT 			= 'map' ; 
+	const PROJECT = 'map' ; 
     const host     = "http://gicrdev.iarc.lan/cms/" ; 
     const host_api = host +"wp-json/wp/v2/" ; 
-    const hubs = [] ; 
     const hubs_per_name = [] ;
     const hubs_per_code = [] ;  
-	var PROJECT = 'map' ; 
 
-    var hubs = [
+    const hubs = [] ; 
+
+    /*
         { 'id' : 1 , 'code' : 'AFCRN' , 'name' : 'SS-Africa' , 'label' : 'Sub-Saharian Africa', 'color' : '#71C8E3' , 'plot_name' : 'ZAF' , 'plot_translate' : { 'x' : 150 , 'y' : -250 } } , 
         { 'id' : 2 , 'code' : 'IZMIR' , 'name' : 'NA,C-Africa, W.Asia' , 'label' : 'Northern Africa, Central and Western Asian', 'color' : '#724A98' , 'plot_name' : 'MAR' , 'plot_translate' : { 'x' : 250 , 'y' : -180 } } , 
         { 'id' : 3 , 'code' : 'MUMB' , 'name' : 'S,E,SE Asia' , 'label' : 'South, Eastern and South-Eastern Asia',  'color' : '#2EAF81' , 'plot_name' : 'CHN' , 'plot_translate' : { 'x' :  250 , 'y' : -350 }} , 
         { 'id' : 4 , 'code' : 'PI' , 'name' : 'Pacific' , 'label' : 'Pacific Islands',  'color' : '#ff6600' , 'plot_name' : 'FJI' , 'plot_translate' : { 'x' : 90 , 'y' : -160 } } , 
         { 'id' : 5 , 'code' : 'CARIB' , 'name' : 'Carribean' , 'label' : 'Carribean',  'color' : '#b21c01' , 'plot_name' : 'SUR' , 'plot_translate' : { 'x' : 100 , 'y' : -150 } } ,
         { 'id' : 6 , 'code' : 'LA' , 'name' : 'LatAm' , 'label' : 'Latin America',  'color' : '#cca300', 'plot_name' : 'PER' , 'plot_translate' : { 'x' : 100 , 'y' : -280 }}
-    ] ; 
+    ] ; */
 
     hubs.sort( function(a, b){ return a.key > b.key; } );
 
-    var hubs_per_name = [] ;
-    var hubs_per_code = [] ;  
     for ( var h in hubs ) 
     {
         hubs_per_name[ hubs[h].name ] = hubs[h] ; 
@@ -142,9 +140,14 @@
 
         // buildTimeline() ; 
 
+        $('#show_annotations').click( function(){
+            $('g.annotation-group').toggle();
+        }) ;
+
         setTimeout(function(){
             $('.intro').fadeOut({ 'duration' : 1000 }) ; 
         }, 5000 ) ; 
+
     }) ;
 
 
@@ -373,6 +376,7 @@
 
         // build legend 
         hubs.sort( function(a, b){ return a.label > b.label ; } );
+        // console.info(hubs);
 
         for ( var h in hubs )
         {
@@ -445,7 +449,8 @@
             .defer( d3.json  , host_api + "hubs" + per_page )
             
             // .defer( d3.json  , "/data/countries.json" )
-            .defer( d3.json  , host_api + "courses" + per_page  )
+            .defer( d3.json  , host_api + "courses" + per_page +"&page=1"  )
+            .defer( d3.json  , host_api + "courses" + per_page +"&page=2" )
 
             .defer( d3.json  , host_api + "visits?per_page=50&page=1" )
             .defer( d3.json  , host_api + "visits?per_page=50&page=2" )
@@ -480,26 +485,27 @@
 
                 hubs.sort( function(a, b){ return a.key > b.key; } );
 
+                // concat trainings
+                trainings   = results[1].concat( results[2] ) ; 
+
+                // concat visits
+                var visits_tmp = results[3].concat( results[4] , results[5] ) ; 
+                for ( var c in visits_tmp )
+                {
+                    if ( visits_tmp[c].hub != false && visits_tmp[c].iso != "" )
+                    {
+                        site_visits.push( visits_tmp[c] ); 
+                    }
+                }
 
                 // merge countries 
-                var countries_tmp = results[5].concat( results[6] , results[7] , results[8] ) ; 
+                var countries_tmp = results[6].concat( results[7] , results[8] , results[9] ) ; 
 
                 for ( var c in countries_tmp )
                 {
                     if ( countries_tmp[c].hub != false && countries_tmp[c].iso != "" )
                     {
                         countries.push( countries_tmp[c] ); 
-                    }
-                }
-
-                trainings   = results[1] ; 
-
-                var visits_tmp = results[2].concat( results[3] , results[4] ) ; 
-                for ( var c in visits_tmp )
-                {
-                    if ( visits_tmp[c].hub != false && visits_tmp[c].iso != "" )
-                    {
-                        site_visits.push( visits_tmp[c] ); 
                     }
                 }
 
@@ -530,9 +536,9 @@
 
     var buildGlobalIndicators = function( data )
     {
-        agreements = data.agreements ; 
+        // console.info( data ) ; 
 
-        console.info( hubs ) ; 
+        agreements = data.agreements ; 
 
         var site_visits_per_hubs = d3.nest()
             .key( function(d){ 
@@ -558,9 +564,16 @@
             .key( function(d){ 
 
                 var country = getCountryById( d.country ) ; 
-                var hub = getHubById( country.hub ) ;
 
-                console.info( d.title.rendered , '['+country.name+']' , d.country, country.hub , hub.name  ) ; 
+                if ( country == undefined ) 
+                {
+                    // console.error( "Country not found for id=" + d.country +": please ensure the country exists with this ID in Wordpress") ; 
+                    return ; 
+                }
+
+                // console.info( d.country , country );
+                // console.info( d.title.rendered , '['+country.name+']' , d.country, country.hub , hub.name  ) ; 
+                var hub = getHubById( country.hub ) ;
 
                 return hub.code ; 
             })
@@ -577,25 +590,30 @@
         var tot_vists = 0 ; 
         var tot_trainings = 0 ; 
 
-        // console.info( trainings_per_hubs , site_visits_per_hubs ) ; 
+        // console.info( site_visits_per_hubs ) ; 
+
         for ( var h in site_visits_per_hubs )
         {
             var completed_visits = 0 ; 
 
-            if( site_visits_per_hubs[h].key == 'undefined' ) continue ;  
-
-            for ( var d in site_visits_per_hubs[h].values.data[0].values )
+            if( site_visits_per_hubs[h].key == 'undefined' || site_visits_per_hubs[h].value == undefined ) 
             {
-                if ( site_visits_per_hubs[h].values.data[0].values[d].visit_status[0] == 'completed' )
+                // console.info( h , site_visits_per_hubs[h] ) ; 
+                continue ;  
+            }
+
+            for ( var d in site_visits_per_hubs[h].value.data[0].values )
+            {
+                if ( site_visits_per_hubs[h].value.data[0].values[d].visit_status[0] == 'completed' )
                 {
                     completed_visits++ ; 
                 }
                  
             }
             var completed_trainings = 0 ; 
-            for ( var d in trainings_per_hubs[h].values.data[0].values )
+            for ( var d in trainings_per_hubs[h].value.data[0].values )
             {
-                if ( trainings_per_hubs[h].values.data[0].values[d].course_status[0] == 'completed' )
+                if ( trainings_per_hubs[h].value.data[0].values[d].course_status[0] == 'completed' )
                 {
                     completed_trainings++ ; 
                 }
@@ -631,18 +649,24 @@
         $('table#global_indicators').append( total_html ) ; 
 
         // grab data to hub map 
-
+        // console.info( data.site_visits ) ; 
 
         // building data per countries
         site_visits_per_country = d3.nest()
             .key( function( d ){ 
-                return d.country[0].iso ;  
+                var country = getCountryById( d.country ) ; 
+                if ( country == undefined ) return ; 
+                return country.iso ;  
             })
             .rollup(function( country ) { return {  "total": 1} })
             .entries( data.site_visits  ) ; 
 
         trainings_per_country = d3.nest()
-            .key( function( d ){ return d.country[0].iso ;  })
+            .key( function( d ){ 
+                var country = getCountryById( d.country ) ; 
+                if ( country == undefined ) return ; 
+                return country.iso ;   
+            })
             .rollup(function( country ) { return {  "total": country.length } })
             .entries( data.trainings  ) ; 
 
@@ -672,11 +696,20 @@
         let annotations = [] ; 
 
         const hubs_annotations = {
-            2 : {} , 
-            3 : {} , 
-            4 : {} , 
+            2 : { // African ()
+                dy : 100 , 
+                dx: -50
+            } , 
+            3 : { // Izmir
+                dy : -100 , 
+                dx: -200
+            } , 
+            4 : { // India (Mumbai)
+                dy : 150 , 
+                dx : -10
+            } , 
             5 : {
-                radius : 15
+                radius : 30
             } , 
             6 : {
                 radius : 25 ,
@@ -684,9 +717,8 @@
                 dx : -250
             } , 
             7 : {
-                radius : 2 ,
-                dy : 80 , 
-                dx : -100
+                dy : -40 , 
+                dx : -150
             }
 
         } ; 
@@ -708,7 +740,7 @@
               subject   : { radius : ( h.radius == undefined ) ? 2 : h.radius } ,
               connector : { end: "arrow" } ,
               x         : centroid[0] , 
-              y         : centroid[1] + 150 ,
+              y         : centroid[1] + 200 ,
               color     : '#ff8684',
               stroke    : 'black',
               className : 'annotation_' + d.code , 
@@ -732,6 +764,8 @@
     var grabGicrValues = function(){
 
         // for ( var ss in countries ) console.info( countries[ss] ) ; 
+        
+        // console.info( hubs_totals_training , CanGraphGeometries.features ) ; 
 
         for( var f in CanGraphGeometries.features ) 
         {
@@ -755,7 +789,7 @@
             for ( var g in site_visits_per_country )
             {
 
-                if ( c.ISO_3_CODE == site_visits_per_country[g].key )
+                if ( c.ISO_3_CODE == site_visits_per_country[g].key && site_visits_per_country[g].values != undefined )
                 {
                     c.site_visits = site_visits_per_country[g].values.total ; 
                     break ; 
@@ -775,13 +809,15 @@
 
             // training per hub
             for ( var gt in hubs_totals_training )
-            {
-                if ( c.values != undefined && c.values.hub[0].code == hubs_totals_training[gt].key )
+            {   
+
+                /*var hub = getHubById( c.values.hub ) ; 
+                if ( c.values != undefined && hub.code == hubs_totals_training[gt].key )
                 {
                     c.hub_total_trainings = hubs_totals_training[gt].total ; 
                     hubs_totals_values.push( hubs_totals_training[gt].total ) ; 
                     break ;
-                }
+                }*/
                 
             }
 
@@ -931,7 +967,9 @@
 
                                     var hub = getHubById( current_hub ) ; 
                                     
-                                    if ( hub != undefined && hub.code == d.properties.values.hub[0].code ) 
+                                    var country_hub = getHubById( d.properties.values.hub ) ; 
+
+                                    if ( hub != undefined && hub.code == country_hub.code ) 
                                         return d.properties.values.color ; 
                                     else
                                         return GICR.default_color ;                                    
@@ -994,6 +1032,9 @@
         return country ; 
     }
 
+
+    // console.info( countries ) ; 
+
     var getCountryById  = function( id )
     {
         var country ; 
@@ -1055,8 +1096,8 @@
             .duration( 1500 )
             .attr("transform", translate + "scale(" + scale + ")translate(" + -x + "," + -y + ")")
             .on("end",function(){
-                if ( level == 0 )
-                    $('.annotation-group').show();
+                /*if ( level == 0 )
+                    $('.annotation-group').show();*/
             })
         ;
 
@@ -1157,7 +1198,7 @@
 
                     for ( var g in countries )
                     {
-                        if( countries[g].hub[0].id == hub.id ) 
+                        if( countries[g].hub == hub.id ) 
                         {
                             $('ul.hubCountries').append('<li><a href="#" onclick="zoomCountry(\''+countries[g].iso+'\')" hover-color="'+hub.color+'" iso-code="'+countries[g].iso+'">'+countries[g].name+'</a></li>') ; 
                         }
@@ -1176,33 +1217,111 @@
                     $('.hub-name').css('color' , hub.color ).text( hub.name ) ; 
                     $('.hub-line,div#hubActvities a.close').css('background-color' , hub.color ) ; 
 
-                    $('.list_visits').html(' ');
-                    $('.list_visits').append('<h3>Site visits:</h3>');
+                    // $('.list_visits').html(' ');
+                    // $('.list_visits').append('<h3>Site visits:</h3>');
 
                     // console.info( site_visits ) ; 
+                    var visits_per_year = d3.nest()
+                        .key( function(d){ return Math.abs(d.year); })
+                        .entries( site_visits ) ; 
+                    visits_per_year.sort( function(a, b){ return a.key < b.key; } );
+                    site_visits.sort( function(a, b){ return a.year < b.year; } );
+
+                    // console.info( visits_per_year ) ;
+
                     // get list of visists + countries
-                    for ( var h in site_visits )
+                    /*for ( var s in visits_per_year )
                     {
-                        var c_hub = getCountryHub( site_visits[h].country )  ; 
-                        if ( hub.code == c_hub.code && site_visits[h].visit_status[0] == 'completed' )
+                        let html = "" ; 
+
+                        for ( var h in visits_per_year[s].values )
                         {
-                            $('.list_visits').append('<li><a href="/site-visit.html" rel="gallery" class="fancybox fancybox.iframe">'+site_visits[h].period+' - '+site_visits[h].country+': '+site_visits[h].comments+'</a></li>') ; 
+                            var c_country = getCountryById( visits_per_year[s].values[h].country )  ; 
+                            var c_hub = getHubById( c_country.hub ) ; 
+
+                            // console.info( site_visits[h] , c_hub , c_country ) ; 
+                            if ( hub.code == c_hub.code && visits_per_year[s].values[h].visit_status[0] == 'completed' )
+                            {
+                                html += '<li><a href="/site-visit.html" rel="gallery" class="fancybox fancybox.iframe">'+c_country.name+'</a></li>' ; 
+                            }
+                        }   
+
+                        if ( html != "")
+                            $('.list_visits').append('<li><h4>'+ visits_per_year[s].key+'</h4> <ul class="sub-visits"> '+html+' </ul> </li>') ; 
+                        
+                    }*/
+
+                    // empty timeline html
+                    $('#cd-timeline').html(" ") ; 
+                    var timelines = site_visits.concat( trainings ) ; 
+                    sortByKey( timelines , 'year'); 
+                    console.info( timelines ) ; 
+
+                    let years_added = [] ; 
+                    let counter = 0 ; 
+
+                    for ( var h in timelines )
+                    {
+                        let row = timelines[h] ; 
+                        var c_country = getCountryById( row.country )  ; 
+   
+                        if ( c_country == undefined )
+                        {
+                            // console.error( row.country +' is not linked with a hub ') ; 
+                            continue ; 
                         }
+
+                        var c_hub = getHubById( c_country.hub ) ; 
+
+                        if ( hub.code == c_hub.code ) 
+                        {
+                            //if ( row.type == "visit" && row.visit_status[0] == 'completed' ) continue ; 
+                            //if ( row.type == "course" && row.course_status[0] == 'completed' ) continue ; 
+
+                            let html = '' ; 
+                            let is_hidden = ( counter > 7 ) ? 'is-hidden' : '' ; 
+                            if ( $.inArray( row.year , years_added ) == -1 )
+                            {
+                                html += '<div class="cd-timeline-img '+is_hidden+'">'+row.year+'</div>' ; 
+                                years_added.push( row.year ) ; 
+                            }
+
+                            let icon = ( row.type == 'course' ) ? 'fa-graduation-cap' : 'fa-map-marker' ; 
+
+                            html += '<div class="cd-timeline-content '+is_hidden+'">' ; 
+                            html += '<h2 style="color:'+c_hub.color+';"> <i class="fa '+icon+'" aria-hidden="true"></i> '+c_country.name+'</h2><p>'+row.title.rendered+'</p>' ; 
+                            html += '<a href="/sheet-'+row.type+'.html" class="cd-read-more fancybox" rel="'+row.type+'">Read more</a>' ; 
+                            html += '</div>'; 
+
+                            $('#cd-timeline').append('<div class="cd-timeline-block '+row.type+'">'+html+'</div>') ; 
+                            counter++ ; 
+                        }                        
                     }
 
-                    $('.list_courses').html(' ');
-                    $('.list_courses').append('<h3>Courses:</h3>');
-                    for ( var h in trainings )
-                    {
-                        var c_hub = getCountryHub( trainings[h].country )  ; 
-                        if ( hub.code == c_hub.code && trainings[h].course_status[0] == 'completed' )
-                        {
-                            var the_date = ( trainings[h].dates == undefined ) ? trainings[h].period : trainings[h].dates ; 
-                            $('.list_courses').append('<li><a href="/course.html"  rel="gallery" class="fancybox fancybox.iframe" >'+trainings[h].period+' - '+trainings[h].place+', '+trainings[h].country+' ('+the_date+')</a></li>') ; 
-                        }
+                    var timelineBlocks = $('.cd-timeline-block'),
+                        offset = 0.8;
+
+                    //hide timeline blocks which are outside the viewport
+                    hideBlocks(timelineBlocks, offset);
+
+                    //on scolling, show/animate timeline blocks when enter the viewport
+                    $('#hubActvities').on('scroll', function(){
+                        (!window.requestAnimationFrame) 
+                            ? setTimeout(function(){ showBlocks(timelineBlocks, offset); }, 100)
+                            : window.requestAnimationFrame(function(){ showBlocks(timelineBlocks, offset); });
+                    });
+
+                    function hideBlocks(blocks, offset) {
+                        blocks.each(function(){
+                            ( $(this).offset().top > $(window).scrollTop()+$(window).height()*offset ) && $(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
+                        });
                     }
 
-                    // console.info( trainings ) ;
+                    function showBlocks(blocks, offset) {
+                        blocks.each(function(){
+                            ( $(this).offset().top <= $(window).scrollTop()+$(window).height()*offset && $(this).find('.cd-timeline-content').hasClass('is-hidden') ) && $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('fade-in');
+                        });
+                    }
                 }
 
                 $('a.fancybox').fancybox({
@@ -1271,11 +1390,12 @@
             case 2 : // sub saharian africa
                 var codeCountry = "CMR" ; 
                 var translateX = map_width / 4 ; 
-                var translateY = map_height / 2.5 ; 
+                var translateY = map_height / 3 ; 
+                var scale = 2.2 ; 
                 break ; 
 
             case 3 : // northern africa + south east asia
-                var codeCountry = "MAR" ; 
+                var codeCountry = "TUR" ; 
                 var scale = 1.5 ; 
                 var translateX = map_width / 12 ; 
                 break ; 
@@ -1288,7 +1408,7 @@
                 break ; 
 
             case 4 : // south east southern asia
-                var codeCountry = "VNM" ; 
+                var codeCountry = "IND" ; 
                 var translateX = map_width / 3.2 ;
                 var scale = 1.3 ;  
                 break ; 
@@ -1342,10 +1462,11 @@
             $(".unit-label").hide(); 
 
             var country_clicked = getCountryByIso( codeCountry ) ; // countries[ codeCountry ] ; 
+            // console.info( country_clicked ) ; 
             var hub = country_clicked.hub[0] ; 
 
             // zoom to view
-            zoomView( hub.id ,'hub') ; 
+            zoomView( country_clicked.hub ,'hub') ; 
 
         }
 
@@ -1459,4 +1580,15 @@
     var nl2br = function  (str, is_xhtml) {   
         var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+    }
+
+    function sortByKey( array, key , direction) {
+        var direction ; 
+        return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            if ( direction == undefined )
+              return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+            else if ( direction == 'ASC' )
+              return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
     }

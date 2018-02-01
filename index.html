@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/jquery.fancybox.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css" media='screen'>
         <link rel="stylesheet" href="css/graphics/map.css">
 
         <link rel="icon" type="image/png" href="favicon.ico" />
@@ -59,7 +60,6 @@
                     <a class="button geo view active" onclick="setViewPer(1,this)"> Geography </a>
                     <a class="button act view" onclick="setViewPer(2,this)"> Activities </a>
                     <!--<a class="button" onclick="setViewPer(3,this)"> Actions </a>-->
-                    
                 </div>
 
                 <div class="filter filter-geography">
@@ -108,8 +108,13 @@
                 <div class="hub-line top"></div>
                 <a class="close" onclick="zoomView('','global')">X</a>
                 <h2 class="hub-name"></h2>
-                <ul class="list_visits"></ul>
-                <ul class="list_courses"></ul>
+                
+                <!--<ul class="list_visits"></ul>
+                <ul class="list_courses"></ul>-->
+
+                <section id="cd-timeline" class="cd-container">
+
+                </div>
             </div>  
 
             <div id="hubPanel">
@@ -175,17 +180,20 @@
             </ul>
 
             <div class="footer-map">
-            <img src="img/logo-iarc.jpg" title="IARC" id="iarc">
 
-            <svg id="legend" width="150" height="50"></svg>
-            
-            <svg id="legend_bubble" width="150" height="50"></svg>
+                <label for="show_annotations"><input type="checkbox" id="show_annotations"> Show annotations</label>
+             
+                <img src="img/logo-iarc.jpg" title="IARC" id="iarc">
+
+                <svg id="legend" width="150" height="50"></svg>
+                
+                <svg id="legend_bubble" width="150" height="50"></svg>
 
 
-            <div id="txt-footer-map">The boundaries and names shown and the designations used on this map do not imply the expression of any opinion whatsoever on the part of the World Health Organization concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. Dotted and dashed lines on maps represent approximate border lines for which there may not yet be full agreement.
-            ©WHO 2017. All rights reserved
-            </div>
-            <img src="img/logo-who.png" title="WHO" id="who">
+                <div id="txt-footer-map">The boundaries and names shown and the designations used on this map do not imply the expression of any opinion whatsoever on the part of the World Health Organization concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. Dotted and dashed lines on maps represent approximate border lines for which there may not yet be full agreement.
+                ©WHO 2017. All rights reserved
+                </div>
+                <img src="img/logo-who.png" title="WHO" id="who">
             </div>
 
         </div> <!-- #main-container -->

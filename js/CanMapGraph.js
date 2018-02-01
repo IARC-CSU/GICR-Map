@@ -877,7 +877,7 @@ function processUpdateData( predictions ) {
     if ( CanMapConf.chart.mode == 'heat' )
     {
         // select all path geometries
-        // CanGraphMapFeatures = d3.selectAll('.country').data( topojson.object(CanGraphGeometries, CanGraphGeometries.objects['general']).geometries ) ; 
+        CanGraphMapFeatures = d3.selectAll('.country').data( topojson.object(CanGraphGeometries, CanGraphGeometries.objects['general']).geometries ) ; 
 
         // transition color for feach path 
         CanGraphMapFeatures.transition()  //select all the countries and prepare for a transition to new values
@@ -954,11 +954,12 @@ function drawMap( world ) {
 
             if ( view == 2 )
             {   
-                var label = hubs_per_name[ d.properties.values.hub[0].name ].name ;  
-                label += '<br><span class="nb_courses">Number of courses: <strong>'+d.properties.hub_total_trainings+'</strong></span>'; 
+                var hub         = getHubById( d.properties.values.hub ) ; 
+                var label       = hub.name ;  
+                label           += '<br><span class="nb_courses">Number of courses: <strong>'+d.properties.hub_total_trainings+'</strong></span>'; 
                 // var bg_color = color_training( d.properties.hub_total_trainings ) ; 
-                var bg_color = d.properties.values.color  ;
-                var hover_hub = d.properties.values.hub[0].name ; 
+                var bg_color    = d.properties.values.color  ;
+                var hover_hub   = hub.name ; 
 
                 // hover all countries with 
                 for( var f in CanGraphGeometries.features ) 
@@ -966,11 +967,12 @@ function drawMap( world ) {
                     var values = CanGraphGeometries.features[f].properties.values ; 
                     if ( values == undefined ) continue ; 
 
-                    if ( values.hub[0].name == hover_hub )
+                    // if ( values.hub[0].name == hover_hub )
+                    /*if ( d.properties.values.hub == hub.id )
                     {
                         var path = CanGraphMapFeatures[0][f] ; 
                         $( path ).css('fill-opacity',0.5) ; 
-                    }
+                    }*/
                 }
 
             }
