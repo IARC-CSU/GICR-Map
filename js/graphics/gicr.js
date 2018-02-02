@@ -542,7 +542,9 @@
 
         var site_visits_per_hubs = d3.nest()
             .key( function(d){ 
+
                 var country = getCountryById( d.country ) ; 
+                //console.info( d.country , country ) ; 
                 var hub = getHubById( country.hub ) ;
                 
                 return hub.code ; 
@@ -1128,11 +1130,31 @@
         }
     }
 
+    var showGallery = function(){
+
+        $('a[data-fancybox="gallery"][attr-key="0"]').trigger('click') ;
+    }
+
+    var showActivities = function( hub_id ){
+
+        view = 2 ; 
+        zoomView( hub_id , 'hub' ) ; 
+    }
+
+    var backRegion = function( hub_id ){
+        view = 1 ; 
+
+        $('#countryPanel').removeClass('show') ;
+        $('#hubActivities').removeClass('show') ;
+
+        zoomView( hub_id , 'hub' , false  ) ;    
+    }
+
     /**
     *
     * @type global | hub | hub-country
     **/
-    var zoomView = function( item , type )
+    var zoomView = function( item , type , zoom )
     {
         var scale   = 2 ;
         var option  = type ; 
@@ -1142,18 +1164,17 @@
         $('#list-hubs a').removeClass('active') ; 
         $('#list-hubs a[attr-hub="'+hub_id+'"]').addClass('active') ; 
 
-        current_country = item.value ; 
-
+    
         // console.info( option ) ; 
 
         switch( option ) 
         {
             case "global" :
-
+                view = 1 ; 
                 level = 0 ; 
                 $('#hubPanel').removeClass('show') ;
                 $('#countryPanel').removeClass('show') ;
-                $('#hubActvities').removeClass('show') ;
+                $('#hubActivities').removeClass('show') ;
 
                 zoomRegion( undefined ) ; 
                 setTimeout(function(){
@@ -1181,9 +1202,10 @@
 
                     // calculate the number of the height sscroll view panel 
                     $('div#hubPanel,div#countryPanel').css( { 'height' : height_panel } ) ;  
-                    $('ul.hubCountries').html(' ') ; 
+                    $('ul.hubCountries').html('<option value=""> Countries </option>') ; 
                     $('.hub-name').css('color' , hub.color ).text( hub.name ) ; 
-                    $('.hub-line,div#hubPanel a.close').css('background-color' , hub.color ) ; 
+                    $('.hub-line,div#hubPanel a.close,.baseline ul li .block').css('background-color' , hub.color ) ; 
+                    $('.item h3').css('color' , hub.color ) ; 
                     $('text.place-label').removeClass('show');
                     
                     // gicr_csv.sort( function(a, b){ return a.Country > b.Country ; } );
@@ -1193,14 +1215,18 @@
                     for ( var h in hub.photos_hubs )
                     {
                         var url = hub.photos_hubs[h].guid ; 
-                        $('#gallery_hub').append('<li><a data-fancybox="gallery" href="'+url+'"><img class="gallery" src="'+url+'"></li>')
+                        $('#gallery_hub').append('<li><a data-fancybox="gallery" href="'+url+'" attr-key="'+h+'"><img class="gallery" src="'+url+'"></li>')
                     } 
+
+                    sortByKey( countries , 'name' , 'DESC' ) ; 
 
                     for ( var g in countries )
                     {
                         if( countries[g].hub == hub.id ) 
                         {
-                            $('ul.hubCountries').append('<li><a href="#" onclick="zoomCountry(\''+countries[g].iso+'\')" hover-color="'+hub.color+'" iso-code="'+countries[g].iso+'">'+countries[g].name+'</a></li>') ; 
+                            //$('ul.hubCountries').append('<li><a href="#" onclick="zoomCountry(\''+countries[g].iso+'\')" hover-color="'+hub.color+'" iso-code="'+countries[g].iso+'">'+countries[g].name+'</a></li>') ; 
+                            $('select.hubCountries').append('<option hover-color="'+hub.color+'" iso-code="'+countries[g].iso+'" value="'+countries[g].iso+'">'+countries[g].name+'</option>') ; 
+                        
                         }
                     }
                 }
@@ -1212,10 +1238,13 @@
                     $('#hubPanel').removeClass('show') ;
 
                     $('.hubs-list').addClass('hidden');
-                    $('#hubActvities').addClass('show') ;
-                    $('div#hubActvities').css( { 'height' : height_panel } ) ;  
+                    $('#hubActivities').addClass('show') ;
+
+                    $('div#hubActivities').css( { 'height' : height_panel } ) ;  
+                    $('div#hubActivities a.back').attr('onclick','backRegion('+hub_id+')') ;
+
                     $('.hub-name').css('color' , hub.color ).text( hub.name ) ; 
-                    $('.hub-line,div#hubActvities a.close').css('background-color' , hub.color ) ; 
+                    $('.hub-line,div#hubActivities a.close,div#hubActivities a.back').css('background-color' , hub.color ) ; 
 
                     // $('.list_visits').html(' ');
                     // $('.list_visits').append('<h3>Site visits:</h3>');
@@ -1255,7 +1284,7 @@
                     $('#cd-timeline').html(" ") ; 
                     var timelines = site_visits.concat( trainings ) ; 
                     sortByKey( timelines , 'year'); 
-                    console.info( timelines ) ; 
+                    // console.info( timelines ) ; 
 
                     let years_added = [] ; 
                     let counter = 0 ; 
@@ -1286,11 +1315,13 @@
                                 years_added.push( row.year ) ; 
                             }
 
-                            let icon = ( row.type == 'course' ) ? 'fa-graduation-cap' : 'fa-map-marker' ; 
+                            let icon = ( row.type == 'course' ) ? 'fa-graduation-cap' : 'fa-plane' ; 
+
+                            // console.info( row ) ; 
 
                             html += '<div class="cd-timeline-content '+is_hidden+'">' ; 
                             html += '<h2 style="color:'+c_hub.color+';"> <i class="fa '+icon+'" aria-hidden="true"></i> '+c_country.name+'</h2><p>'+row.title.rendered+'</p>' ; 
-                            html += '<a href="/sheet-'+row.type+'.html" class="cd-read-more fancybox" rel="'+row.type+'">Read more</a>' ; 
+                            html += '<a href="'+row.link+'" class="cd-read-more fancybox_iframe fancybox.iframe" rel="activity">Read more</a>' ; 
                             html += '</div>'; 
 
                             $('#cd-timeline').append('<div class="cd-timeline-block '+row.type+'">'+html+'</div>') ; 
@@ -1305,7 +1336,7 @@
                     hideBlocks(timelineBlocks, offset);
 
                     //on scolling, show/animate timeline blocks when enter the viewport
-                    $('#hubActvities').on('scroll', function(){
+                    $('#hubActivities .cd-container').on('scroll', function(){
                         (!window.requestAnimationFrame) 
                             ? setTimeout(function(){ showBlocks(timelineBlocks, offset); }, 100)
                             : window.requestAnimationFrame(function(){ showBlocks(timelineBlocks, offset); });
@@ -1332,35 +1363,50 @@
                     'speedOut'      : 200
                 }) ; 
 
+                $('a.fancybox_iframe')
+                    .attr('rel', 'activity')
+                    .fancybox({
+                        openEffect  : 'none',
+                        closeEffect : 'none',
+                        nextEffect  : 'none',
+                        prevEffect  : 'none'
+                    });
+
 
                 var hub_settings = hubCentroidPerId( hub_id ) ; 
                 
 
                 // zoom on region 
-                zoomRegion( hub_settings.codeCountry , hub_settings.scale , hub_settings.translateX , hub_settings.translateY , hub_id ) ; 
+                if ( view == 1 && zoom != false )
+                    zoomRegion( hub_settings.codeCountry , hub_settings.scale , hub_settings.translateX , hub_settings.translateY , hub_id ) ; 
+                
                 $('text.subunit-label').removeClass('zoomed selected');
 
                 if ( view == 2 ) return ; 
 
-                $('#regional_hub_center').text( hub.regional_hub_center +' overview' ) ; 
+                $('#btn_show_activities').attr('attr-hub', hub_id).attr('onclick','showActivities('+hub_id+')') ; 
+
+                $('#regional_hub_center').html( '<i class="fa fa-building"></i> &nbsp; ' +hub.regional_hub_center +' overview' ) ; 
                 $('#hub_centers').html( nl2br( hub.overview ) ); 
                 $('#hub_pi').html( nl2br( hub.pi ) ); 
                 $('#canreg_experts').html( nl2br( hub.canreg_experts ) ); 
                 $('#planned_activities').html( nl2br( hub.planned_activities ) ); 
 
-                $('#hubPanel ul.hubCountries li').css('background-color', hub.color ) ; 
-                $('#hubPanel h3').css('border-color', hub.color ) ; 
+                //$('#hubPanel ul.hubCountries li').css('background-color', hub.color ) ; 
+                // $('#hubPanel h3').css('border-color', hub.color ) ; 
 
-                $('ul.hubCountries li a').hover(function(){
+                /*$('ul.hubCountries li a').hover(function(){
                     $(this).css('border-color', $(this).attr('hover-color') ) ; 
                     $('path#code_'+ $(this).attr('iso-code') ).addClass('hover') ; 
                 },function(){
                     $(this).css('border-color', 'transparent' ) ; 
                     $('path#code_'+ $(this).attr('iso-code') ).removeClass('hover') ; 
-                })
+                })*/
                 break ; 
 
             case "hub-country" : 
+
+                current_country = item.value ; 
 
                 $('#hubPanel').removeClass('show') ;
                 $('#countryPanel').addClass('show') ;

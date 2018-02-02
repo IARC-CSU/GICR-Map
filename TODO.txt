@@ -1,0 +1,6 @@
+- Activities in Country profile
+- add more pictures everywhere
+- add another full course sheet
+- optimize geojson map
+- in hub panel, sort country name alphabetically
+- add social network icon

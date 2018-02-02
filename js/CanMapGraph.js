@@ -952,7 +952,10 @@ function drawMap( world ) {
                 .style('top', (mouse[1] - 60 ) + 'px')
                 .style('left', (mouse[0] - 80 ) + 'px');
 
-            if ( view == 2 )
+            var label = d.properties.CNTRY_TERR  ; 
+            var bg_color = d.properties.values.color ; 
+
+            /*if ( view == 2 )
             {   
                 var hub         = getHubById( d.properties.values.hub ) ; 
                 var label       = hub.name ;  
@@ -968,11 +971,11 @@ function drawMap( world ) {
                     if ( values == undefined ) continue ; 
 
                     // if ( values.hub[0].name == hover_hub )
-                    /*if ( d.properties.values.hub == hub.id )
+                    if ( d.properties.values.hub == hub.id )
                     {
                         var path = CanGraphMapFeatures[0][f] ; 
                         $( path ).css('fill-opacity',0.5) ; 
-                    }*/
+                    }
                 }
 
             }
@@ -980,7 +983,7 @@ function drawMap( world ) {
             {
                 var label = d.properties.CNTRY_TERR  ; 
                 var bg_color = d.properties.values.color ; 
-            }
+            }*/
 
             $('.canTooltip div.tooltip-line').css('background-color', bg_color )
             $('.canTooltip h2').html( label  ) ; 
@@ -1053,7 +1056,7 @@ function drawMap( world ) {
         })
 
     // --------------------------------------------------------------------------------------------------------------
-    var CanPlacesCircles = CanMapSvg.append('g')
+    /*var CanPlacesCircles = CanMapSvg.append('g')
         .attr('class','place-circles-group')
         .attr("transform", "translate("+CanMapConf.chart.globe_translate.x+","+CanMapConf.chart.globe_translate.y+")")
     ;
@@ -1129,7 +1132,7 @@ function drawMap( world ) {
             d3.select(this).style('fill-opacity',0.7) ; 
             $('.canTooltip').hide();
         })   
-    ;
+    ;*/
 
 
     if ( CanMapConf.chart.projection != 'globe' ) 
