@@ -2,7 +2,7 @@
 
     // Constants
 	const PROJECT = 'map' ; 
-    const host     = "http://gicrdev.iarc.lan/cms/" ; 
+    const host     = "http://www.gicr.local/cms/" ; // gicrdev.iarc.lan
     const host_api = host +"wp-json/wp/v2/" ; 
     const hubs_per_name = [] ;
     const hubs_per_code = [] ;  
@@ -81,8 +81,8 @@
         }
         else
         {
-            scale = 230 ;
-            translate = { 'x' : 0 , 'y' : 80 } ; 
+            scale = 250 ;
+            translate = { 'x' : 0 , 'y' : 90 } ; 
         }
     }
     else
@@ -710,16 +710,16 @@
                 dy : 150 , 
                 dx : -10
             } , 
-            5 : {
-                radius : 30
+            5 : { // pacific
+                radius : 60
             } , 
-            6 : {
-                radius : 25 ,
+            6 : { // carribean
+                radius : 50 ,
                 dy : -150 , 
                 dx : -250
             } , 
-            7 : {
-                dy : -40 , 
+            7 : { // latin america
+                dy : -50 , 
                 dx : -150
             }
 
@@ -742,7 +742,7 @@
               subject   : { radius : ( h.radius == undefined ) ? 2 : h.radius } ,
               connector : { end: "arrow" } ,
               x         : centroid[0] , 
-              y         : centroid[1] + 200 ,
+              y         : centroid[1] + 100 ,
               color     : '#ff8684',
               stroke    : 'black',
               className : 'annotation_' + d.code , 
@@ -876,12 +876,17 @@
             .append("text")
                 .attr("id",function(d){ return "label-"+d.properties.ISO_3_CODE ; })
                 .attr("class", "subunit-label" )
-                .attr("transform", function(d) { return "translate(" + CanGraphMapPath.centroid(d) + ")"; })
+                .attr("transform", function(d) { 
+                    var centroid = CanGraphMapPath.centroid(d) ;
+                    // console.info(centroid[0],centroid[1],Math.abs(centroid[0])); 
+                    if ( centroid[0] != NaN && centroid[1] != NaN )
+                        return "translate(" + centroid[0] + ","+centroid[1]+")"; 
+                })
                 .attr("dy", ".35em")
                 .text(function(d){
                     if ( d.properties.CNTRY_TERR == null ) return ; 
 
-                    if ( d.properties.values == undefined )
+                    if ( d.properties.values == undefined ) 
                         return ; 
                     else
                         return d.properties.CNTRY_TERR ;
@@ -937,6 +942,7 @@
             .duration(1500)
             .attr("fill", function(d){
 
+                // console.info( d.properties ); 
                 switch( d.properties.NAME ) 
                 {   
                     // lakes
@@ -945,6 +951,8 @@
                         break ; 
 
                     // all countries
+                    case "" : 
+                    case undefined :
                     case null :
                         if ( d.properties.values == undefined )
                         {
@@ -962,7 +970,10 @@
                             switch ( level )
                             {
                                 case 0 : 
-                                    return d.properties.values.color ; 
+                                    if ( d.properties.ISO_2_CODE == "RU") 
+                                        return GICR.default_color ; 
+                                    else
+                                        return d.properties.values.color ; 
                                     break ; 
 
                                 case 1 : 
@@ -1202,7 +1213,7 @@
 
                     // calculate the number of the height sscroll view panel 
                     $('div#hubPanel,div#countryPanel').css( { 'height' : height_panel } ) ;  
-                    $('ul.hubCountries').html('<option value=""> Countries </option>') ; 
+                    $('select.hubCountries').html('<option value=""> Countries </option>') ; 
                     $('.hub-name').css('color' , hub.color ).text( hub.name ) ; 
                     $('.hub-line,div#hubPanel a.close,.baseline ul li .block').css('background-color' , hub.color ) ; 
                     $('.item h3').css('color' , hub.color ) ; 
@@ -1218,8 +1229,8 @@
                         $('#gallery_hub').append('<li><a data-fancybox="gallery" href="'+url+'" attr-key="'+h+'"><img class="gallery" src="'+url+'"></li>')
                     } 
 
-                    sortByKey( countries , 'name' , 'DESC' ) ; 
-
+                    sortByKey( countries , 'name' , 'ASC' ) ; 
+                    console.info( countries );
                     for ( var g in countries )
                     {
                         if( countries[g].hub == hub.id ) 

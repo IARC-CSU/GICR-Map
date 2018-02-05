@@ -1,6 +1,16 @@
 - Activities in Country profile
 - add more pictures everywhere
 - add another full course sheet
-- optimize geojson map
-- in hub panel, sort country name alphabetically
+- optimize geojson map - OK
+- in hub panel, sort country name alphabetically - OK
 - add social network icon
+
+CSS TODO :
+- title of iframe content, reduce
+- overflow-y in iframe: div#primary[class="content-area"]
+- padding .block 10px 0
+
+UPDATE wp_options SET option_value = replace(option_value, 'gicrdev.iarc.lan', 'www.gicr.local') WHERE option_name = 'home' OR option_name = 'siteurl';
+UPDATE wp_posts SET guid = replace(guid, 'gicrdev.iarc.lan','www.gicr.local');
+UPDATE wp_posts SET post_content = replace(post_content, 'gicrdev.iarc.lan', 'www.gicr.local');
+UPDATE wp_postmeta SET meta_value = replace(meta_value,'gicrdev.iarc.lan','www.gicr.local');

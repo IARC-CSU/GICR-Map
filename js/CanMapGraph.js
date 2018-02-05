@@ -313,7 +313,7 @@ CanMapGraph.prototype = {
 
         // queue function loads all external data files asynchronously 
         queue()     
-            .defer(d3.json, "data/world-hd.json.geojson" ) // our geometries
+            .defer(d3.json, "data/world-who-out.geojson" ) // our geometries
             .defer(d3.csv, "data/countries.csv")  // our data specific
             .defer(d3.json, "data/registries.geojson")
             .defer(d3.json, "data/trainings.geojson")
@@ -930,7 +930,7 @@ function drawMap( world ) {
         .attr("d", CanGraphMapPath) // create them using the svg path generator defined above
         .attr("hub-key",function(d){
             // if ( d.properties.values == undefined ) return ; 
-            console.info(  ) ; 
+            // console.info(  ) ; 
         })
         .on("mouseover", function(d){
             d3.select(this).style('fill-opacity',0.5) ; 
